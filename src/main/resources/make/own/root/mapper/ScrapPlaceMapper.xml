@@ -33,7 +33,7 @@
     )
   </select>
   
-  <select id="findAll" resultMap="ScrapPlaceMap" parameterType="map">
+  <select id="findAll" resultMap="ScrapPlaceMap" parameterType="int">
       select 
       s.user_no,
       s.review_place_no,
@@ -51,7 +51,7 @@
       review_place_no desc
   </select>
   
-  <delete id="delete" parameterType="map" >
+  <delete id="delete" parameterType="int" >
     delete from place_scraps
     where review_place_no=#{no}
   </delete>

@@ -141,17 +141,17 @@
       user_no=#{no}
   </update>
   
+  <delete id="delete" parameterType="int">
+    delete from users
+    where user_no=#{no}
+  </delete>
+  
    <update id="updatePassword" parameterType="User" >
     update users
     set password=password(#{password})
     where 
       email=#{email}
   </update>
-  
-  <delete id="delete" parameterType="int">
-    delete from users
-    where user_no=#{no}
-  </delete>
   
   <select id="findByKeyword" 
     resultMap="UserMap" 

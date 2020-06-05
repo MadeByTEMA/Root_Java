@@ -36,12 +36,6 @@
     order by
       course_no asc
   </select>
-
-  <update id="update" parameterType="Course">
-    update courses set
-      create_date=#{createdDate}
-    where course_no=#{no}
-  </update>
   
   <select id="findByNo" resultMap="CourseMap" parameterType="int">
     select 
@@ -55,6 +49,12 @@
     where 
       c.course_no=#{no}
   </select>
+
+  <update id="update" parameterType="Course">
+    update courses set
+      create_date=#{createdDate}
+    where course_no=#{no}
+  </update>
   
   <delete id="delete" parameterType="int">
     delete from courses

@@ -53,7 +53,7 @@
       -->
    </insert>
    
-   <select id="findAll" resultMap="PointMap" parameterType="map">
+   <select id="findAll" resultMap="PointMap">
      select 
       p.point_no, p.user_no, p.trader_no, p.point_type, p.content, p.price, p.create_date
      from
@@ -76,7 +76,7 @@
  
     </select>
    
-   <select id="findOutputByUserNo" resultMap="PointMap" parameterType="map">
+   <select id="findOutputByUserNo" resultMap="PointMap">
      select 
       p.user_no,
       p.trader_no,
@@ -95,7 +95,7 @@
        -->
    </select>
    
-   <select id="find" resultMap="PointMap" parameterType="map">
+   <select id="find" resultMap="PointMap" parameterType="int">
      select 
       p.point_no,
       p.trader_no,
@@ -109,12 +109,7 @@
       p.point_no=#{no}
    </select>
    
-   <!--  
-     where 
-      p.point_no=#{no}
-    -->
-   
-   <select id="findByUserNo" resultMap="PointMap" parameterType="map">
+   <select id="findByUserNo" resultMap="PointMap" parameterType="int">
      select 
       p.point_no,
       p.user_no,
@@ -127,7 +122,7 @@
       points p
       inner join users u on p.user_no=u.user_no 
      where 
-      p.user_no=#{no}
+      p.user_no=#{userNo}
    </select>
    
    <select id="findBytraderNo" resultMap="PointMap" parameterType="int">
@@ -137,7 +132,7 @@
       points p
       inner join users u on p.trader_no=u.user_no
      where 
-      p.point_no=#{no}
+      p.point_no=#{traderNo}
    </select>
    
    <update id="update" parameterType="Point">
@@ -150,26 +145,12 @@
    <delete id="delete" parameterType="int">
     delete from points
     where point_no=#{no}
-    <!-- 
-    delete from points
-    where point_no=8
-     -->
    </delete>
    
-   <select id="listPage" resultMap="PointMap" parameterType="int">
-     select 
-      p.point_no, p.user_no, p.trader_no, p.point_type, p.content, p.price, p.create_date,
-      u.user_name, u.phone_number, u.user_no, u.account, u.bank
-     from
-      points p
-      inner join users u on (p.user_no=u.user_no)
-      where p.user_no=#{userNo}
-      order by p.create_date desc
-      limit #{pageStart}, #{perPageNum}
-  </select>
+    <!-- paging -->
     
-    <!--
-      
+    
+      <!--
      select 
       p.point_no, p.user_no, p.trader_no, p.point_type, p.content, p.price, p.create_date,
       u.user_name, u.phone_number, u.user_no, u.account, u.bank
@@ -191,5 +172,17 @@
       where 
       user_no=#{userNo}
     </select>
+   
+    <select id="listPage" resultMap="PointMap" parameterType="int">
+     select 
+      p.point_no, p.user_no, p.trader_no, p.point_type, p.content, p.price, p.create_date,
+      u.user_name, u.phone_number, u.user_no, u.account, u.bank
+     from
+      points p
+      inner join users u on (p.user_no=u.user_no)
+      where p.user_no=#{userNo}
+      order by p.create_date desc
+      limit #{pageStart}, #{perPageNum}
+  </select>
    
    </mapper>

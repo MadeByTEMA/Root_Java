@@ -36,7 +36,7 @@
   </insert>
   
   
-  <select id="findAll" resultMap="ScrapDayMap" parameterType="map">
+  <select id="findAll" resultMap="ScrapDayMap" parameterType="int">
       select 
       s.user_no,
       s.review_day_no,
@@ -56,7 +56,7 @@
   </select>
 
   
-  <delete id="delete" parameterType="map" >
+  <delete id="delete" parameterType="int" >
     delete from day_scraps
     where review_day_no=#{no}
   </delete>
