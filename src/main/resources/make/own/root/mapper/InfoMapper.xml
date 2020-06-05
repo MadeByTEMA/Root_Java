@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="make.own.root.dao.InfoDao">
+
+  <resultMap type="Info" id="InfoMap">
+    <id column="info_no"  property="no"/>
+    <result column="create_date"    property="createdDate"/>
+    <result column="category" property="category"/>
+    <result column="title"       property="title"/>
+    <result column="content"  property="content"/>
+  </resultMap>
+
+  <select id="findAll" resultMap="InfoMap">
+   select 
+    info_no,
+    create_date,
+    category,
+    title,
+    content
+    from 
+      infos
+  </select>
+
+  
+  <select id="findByNo" resultMap="InfoMap" parameterType="int">
+    select 
+    info_no,
+    create_date,
+    category,
+    title,
+    content
+    from 
+     infos
+    where 
+      info_no=#{no}
+  </select>
+  
+    <select id="findByCategory" resultMap="InfoMap" parameterType="int">
+    select 
+    info_no,
+    create_date,
+    category,
+    title,
+    content
+   from 
+   		infos
+    where 
+      category=#{category}
+  </select>
+  
+</mapper>
+
+
+
+
+
+
+

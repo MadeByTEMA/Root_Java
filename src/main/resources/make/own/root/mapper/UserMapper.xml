@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.keep.root.dao.UserDao">
+
+  <resultMap type="User" id="UserMap">
+    <id column="user_no"  property="no"/>
+    <result column="email"    property="email"/>
+    <result column="password" property="password"/>
+    <result column="user_name"       property="name"/>
+    <result column="birthday"  property="birth"/>
+    <result column="gender"    property="gender"/>
+    <result column="phone_number" property="tel"/>
+    <result column="zip_code"    property="zipCode"/>
+    <result column="basic_address" property="basicAddr"/>
+    <result column="detail_address" property="detailAddr"/>
+    <result column="photo"    property="photo"/>
+    <result column="nickname" property="nickName"/>
+    <result column="account" property="account"/>
+    <result column="bank" property="bank"/>
+  </resultMap>
+  
+  <insert id="insert" parameterType="User"
+  useGeneratedKeys="true" keyColumn="user_no" keyProperty="no">
+    insert into users(
+    email,
+    password,
+    user_name,
+    birthday,
+    gender,
+    phone_number,
+    zip_code,
+    basic_address,
+    detail_address,
+    photo,
+    nickname,
+    account,
+    bank
+    ) values(
+      #{email},
+      password(#{password}),
+      #{name},
+      #{birth},
+      #{gender},
+      #{tel},
+      #{zipCode},
+      #{basicAddr},
+      #{detailAddr},
+      #{photo},
+      #{nickName},
+      #{account},
+      #{bank}
+    )
+  </insert>
+  
+  <select id="findAll" resultMap="UserMap">
+    select 
+    user_no,
+    email,
+    password,
+    user_name,
+    birthday,
+    gender,
+    phone_number,
+    zip_code,
+    basic_address,
+    detail_address,
+    photo,
+    nickname,
+    account,
+    bank
+    from 
+      users
+  </select>
+
+  
+  <select id="findByNo" resultMap="UserMap" parameterType="int">
+    select 
+    user_no,
+    email,
+    password,
+    user_name,
+    birthday,
+    gender,
+    phone_number,
+    zip_code,
+    basic_address,
+    detail_address,
+    photo,
+    nickname,
+    account,
+    bank
+    from 
+      users
+    where 
+      user_no=#{no}
+  </select>
+  
+  <select id="findByEmail" resultMap="UserMap" parameterType="string">
+    select 
+    user_no,
+    email,
+    password,
+    user_name,
+    birthday,
+    gender,
+    phone_number,
+    zip_code,
+    basic_address,
+    detail_address,
+    photo,
+    nickname,
+    account,
+    bank
+    from 
+      users
+    where 
+      user_no=#{no}
+  </select>
+  
+  <update id="update" parameterType="User">
+    update users
+    <set>
+      <if test="email != null and email != ''">email=#{email},</if> 
+      <if test="password != null and password != ''">password=password(#{password}),</if>
+      <if test="name != null and name != ''">user_name=#{name},</if>
+      <if test="birth != null">birthday=#{birth},</if>
+      <if test="gender > 0">gender=#{gender},</if>
+      <if test="tel != null and tel != ''">phone_number=#{tel},</if>
+      <if test="zipCode > 0">zip_code=#{zipCode},</if>
+      <if test="basicAddr != null and basicAddr != ''">basic_address=#{basicAddr},</if>
+      <if test="detailAddr != null and detailAddr != ''">detail_address=#{detailAddr},</if>
+      <if test="photo != null and photo != ''">photo=#{photo},</if>
+      <if test="nickName != null and nickName != ''">nickname=#{nickName},</if>
+      <if test="account > 0">account=#{account},</if>
+      <if test="bank != null and bank != ''">bank=#{bank}</if>
+    </set>
+    where 
+      user_no=#{no}
+  </update>
+  
+   <update id="updatePassword" parameterType="User" >
+    update users
+    set password=password(#{password})
+    where 
+      email=#{email}
+  </update>
+  
+  <delete id="delete" parameterType="int">
+    delete from users
+    where user_no=#{no}
+  </delete>
+  
+  <select id="findByKeyword" 
+    resultMap="UserMap" 
+    parameterType="string">
+    <bind name="keywordPattern" value="'%' + _parameter + '%'"/>
+    select 
+    user_no,
+    email,
+    password,
+    user_name,
+    birthday,
+    gender,
+    phone_number,
+    zip_code,
+    basic_address,
+    detail_address,
+    photo,
+    nickname,
+    account,
+    bank
+    from 
+      users
+    where 
+      user_name like #{keywordPattern}
+      or email like #{keywordPattern}
+      or tel like #{keywordPattern}
+  </select>
+  
+  <select id="findByEmailAndPassword" 
+    resultMap="UserMap" 
+    parameterType="map">
+    select
+    user_no, 
+    email,
+    password,
+    user_name,
+    birthday,
+    gender,
+    phone_number,
+    zip_code,
+    basic_address,
+    detail_address,
+    photo,
+    nickname,
+    account,
+    bank
+    from users
+    where 
+      email=#{email} 
+      and password=password(#{password})
+  </select>  
+
+  <select id="epSearch" resultType="int" parameterType="map">
+    select count(*) from users
+    where email=#{email} and password=password(#{password})
+  </select> 
+   
+  <select id="enSearch" resultType="int" parameterType="map">
+    select count(*) from users
+    where email=#{email} and user_name=#{name}
+  </select> 
+
+  <select id="nameSearch" resultType="int" parameterType="string">
+    select count(user_name) from users 
+      where user_name= #{name}
+  </select>
+
+  <select id="nickNameSearch" resultType="int" parameterType="string">
+    select count(nickname) from users
+     where nickname = #{nickName}
+</select>
+
+<select id="emailSearch" resultType="int" parameterType="string">
+    select count(email) from users
+     where email = #{email}
+</select>
+<select id="telSearch" resultType="int" parameterType="string">
+    select count(phone_number) from users
+     where phone_number = #{tel}
+</select>
+</mapper>

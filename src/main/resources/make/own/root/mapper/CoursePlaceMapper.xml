@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="make.own.root.dao.CoursePlaceDao">
+
+  <resultMap type="CoursePlace" id="CoursePlaceMap">
+    <id column="place_no"  property="no"/>
+    <result column="place_name"    property="placeName"/>
+    <result column="place_basic_address"    property="basicAddr"/>
+    <result column="place_detail_address"    property="detailAddr"/>
+    <result column="etc"    property="etc"/>
+    
+    <association property="courseDay" javaType="CourseDay">
+      <id column="course_day_no"  property="no"/>
+    </association>
+  </resultMap>
+  
+  <insert id="insert" parameterType="CoursePlace"
+    useGeneratedKeys="true" keyColumn="place_no" keyProperty="no">
+    insert into course_places(place_name,place_basic_address,place_detail_address,etc,course_day_no)
+    values(#{placeName}, #{basicAddr}, #{detailAddr}, #{etc}, #{courseDay.no})
+  </insert>
+  
+  <select id="findAllByCourseDayNo" resultMap="CoursePlaceMap" parameterType="int">
+    select 
+      place_no,
+      place_name,
+      place_basic_address,
+      place_detail_address,
+      etc
+    from course_places
+    where
+      course_day_no=#{no}
+    order by
+      place_no asc
+  </select>
+
+  
+  <select id="findByNo" resultMap="CoursePlaceMap" parameterType="int">
+    select 
+      p.place_no,
+      p.place_name,
+      p.place_basic_address,
+      p.place_detail_address,
+      p.etc,
+      d.course_day_no
+    from course_places p
+      inner join course_days d on p.course_day_no=d.course_day_no
+    where 
+      p.place_no=#{no}
+  </select>
+  
+  <update id="update" parameterType="CoursePlace">
+    update course_places
+    <set>
+      place_name=#{placeName},
+      place_basic_address=#{basicAddr},
+      <if test="detailAddr != null and detailAddr != ''">place_detail_address=#{detailAddr},</if>
+      <if test="etc != null and etc != ''">etc=#{etc}</if>
+    </set>
+    where 
+      place_no=#{no}
+  </update>
+  
+  <delete id="delete" parameterType="int">
+    delete from course_places
+    where place_no=#{no}
+  </delete>
+  
+</mapper>
+
+
+
+
+
+
+

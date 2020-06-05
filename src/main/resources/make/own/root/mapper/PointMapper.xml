@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  
+   <mapper  namespace="make.own.root.dao.PointDao">
+   
+    <resultMap type="Point" id="PointMap">
+      <id column="point_no"   property="no"/>
+      <result column="user_no"   property="userNo"/>
+      <result column="trader_no"   property="traderNo"/>
+      <result column="point_type"   property="pointType"/>
+      <result column="content"   property="content"/>
+      <result column="price"   property="price"/>
+      <result column="create_date"   property="createdDate"/>
+      
+      <collection property="user" javaType="User">
+      <id column="user_no"   property="no"/>
+      <result column="user_name"  property="name"/>
+      <result column="phone_number"  property="tel"/>
+      <result column="account"  property="account"/>
+      <result column="bank"  property="bank"/>
+      </collection>
+      
+    </resultMap>
+   
+   <insert id="insert" parameterType="Map">
+    insert into points (
+       user_no, 
+       trader_no, 
+       point_type, 
+       content, 
+       price
+    ) values(
+      #{userNo}, 
+      #{reviewUserNo}, 
+      #{pointType}, 
+      #{content}, 
+      #{price}
+    )
+     <!-- 
+     // 1. 포인트 적립
+     // 2. 포인트 사용
+     // 3. 충전 결제 
+     // 4. 출금 (계좌 출금)
+     userNo : 로그인 세션에 저장된 no
+     traderNo.: 세션에 저장된 no 이외로, 
+    insert into points (user_no, trader_no, point_type, content,  price )
+       values( 52, 51, 0, 1, 150);
+      -->
+   </insert>
+   
+   <select id="findAll" resultMap="PointMap" parameterType="map">
+     select 
+      p.point_no, p.user_no, p.trader_no, p.point_type, p.content, p.price, p.create_date
+     from
+      points p
+     where
+       not p.user_no = p.trader_no 
+       and point_no
+   </select>
+   
+   <select id="findAllByUser" resultMap="PointMap" parameterType="map">
+     select 
+      p.point_no, p.user_no, p.trader_no, p.point_type, p.content, p.price, p.create_date,
+      u.user_name, u.phone_number, u.user_no, u.account, u.bank
+     from
+      points p
+      inner join users u on (p.user_no=u.user_no)  
+     where
+      not p.user_no = p.trader_no
+      and p.user_no=${userNo}
+ 
+    </select>
+   
+   <select id="findOutputByUserNo" resultMap="PointMap" parameterType="map">
+     select 
+      p.user_no,
+      p.trader_no,
+      u.user_name, 
+      u.phone_number,
+      u.account,
+      u.bank
+      from
+      points p 
+      inner join users u on (p.user_no=u.user_no) 
+      where
+      u.user_no
+      <!-- 
+      - inner 조인을 하지 않았을 경우, 해당 번호에 대한 값이 실행되지 않았음.
+      - 즉, 해당 번호가 반복되었음. 
+       -->
+   </select>
+   
+   <select id="find" resultMap="PointMap" parameterType="map">
+     select 
+      p.point_no,
+      p.trader_no,
+      p.user_no,
+      p.point_type,
+      p.content,
+      p.create_date
+     from
+      points p
+     where
+      p.point_no=#{no}
+   </select>
+   
+   <!--  
+     where 
+      p.point_no=#{no}
+    -->
+   
+   <select id="findByUserNo" resultMap="PointMap" parameterType="map">
+     select 
+      p.point_no,
+      p.user_no,
+      p.trader_no,
+      u.user_name, 
+      u.phone_number,
+      u.account,
+      u.bank
+     from
+      points p
+      inner join users u on p.user_no=u.user_no 
+     where 
+      p.user_no=#{no}
+   </select>
+   
+   <select id="findBytraderNo" resultMap="PointMap" parameterType="int">
+     select
+       p.trader_no 
+     from
+      points p
+      inner join users u on p.trader_no=u.user_no
+     where 
+      p.point_no=#{no}
+   </select>
+   
+   <update id="update" parameterType="Point">
+   update points p set
+   <if test="price != null and price != ''"> p.price=#{price}</if>
+   where p.point_no=#{no}
+     
+   </update>
+   
+   <delete id="delete" parameterType="int">
+    delete from points
+    where point_no=#{no}
+    <!-- 
+    delete from points
+    where point_no=8
+     -->
+   </delete>
+   
+   <select id="listPage" resultMap="PointMap" parameterType="int">
+     select 
+      p.point_no, p.user_no, p.trader_no, p.point_type, p.content, p.price, p.create_date,
+      u.user_name, u.phone_number, u.user_no, u.account, u.bank
+     from
+      points p
+      inner join users u on (p.user_no=u.user_no)
+      where p.user_no=#{userNo}
+      order by p.create_date desc
+      limit #{pageStart}, #{perPageNum}
+  </select>
+    
+    <!--
+      
+     select 
+      p.point_no, p.user_no, p.trader_no, p.point_type, p.content, p.price, p.create_date,
+      u.user_name, u.phone_number, u.user_no, u.account, u.bank
+     from
+      points p
+      inner join users u on (p.user_no=u.user_no)
+      where p.user_no=51
+      order by p.create_date desc
+      limit 1, 10; 
+      
+      select *
+      from points
+      where point_no > 0
+     -->
+    
+    <select id="getTotalCount" resultType="int">
+      select count(*)
+      from points
+      where 
+      user_no=#{userNo}
+    </select>
+   
+   </mapper>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="make.own.root.dao.ScrapDayDao">
+
+  <resultMap type="ScrapDay" id="ScrapDayMap">
+    <association property="user" javaType="User">
+      <id column="user_no"  property="no"/>
+    </association>
+    
+    <association property="reviewDay" javaType="ReviewDay">
+      <id column="review_day_no"  property="no"/>
+      <result column="main_photo" property="mainPhoto"/>
+      <result column="title" property="title"/>
+      <result column="day_date" property="dayDate"/>
+      <result column="day_review" property="mainReview"/>
+      <result column="status" property="status"/>
+    </association>
+    
+     <association property="review" javaType="Review">
+      <id column="review_no"  property="no"/>
+    </association>
+    
+  </resultMap>
+  
+  <insert id="insert" parameterType="Map">
+    insert into day_scraps (
+      user_no,
+      review_day_no
+    ) values(
+      #{userNo},
+      #{reviewDayNo}
+    )
+  </insert>
+  
+  
+  <select id="findAll" resultMap="ScrapDayMap" parameterType="map">
+      select 
+      s.user_no,
+      s.review_day_no,
+      d.main_photo,
+      d.title,
+      d.review_no,
+      d.day_date,
+      d.day_review,
+      d.status
+    from day_scraps s
+      inner join review_days d on s.review_day_no=d.review_day_no
+      left outer join reviews r on r.review_no=d.review_no
+    where 
+      s.user_no=#{no}
+    order by
+      review_day_no desc
+  </select>
+
+  
+  <delete id="delete" parameterType="map" >
+    delete from day_scraps
+    where review_day_no=#{no}
+  </delete>
+  
+</mapper>
+
+
+
+
+
+
+

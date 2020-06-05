@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="make.own.root.dao.ScrapPlaceDao">
+
+  <resultMap type="ScrapPlace" id="ScrapPlaceMap">
+    <association property="user" javaType="User">
+      <id column="user_no"  property="no"/>
+    </association>
+    
+    <association property="reviewPlace" javaType="ReviewPlace">
+      <id column="review_place_no"  property="no"/>
+      <result column="place_name" property="name"/>
+      <result column="place_basic_address" property="basicAddr"/>
+      <result column="place_detail_address" property="detailAddr"/>
+      <result column="place_review" property="placeReview"/>
+      <result column="main_photo" property="mainPhoto"/>
+      <result column="status" property="status"/>
+    </association>
+  </resultMap>
+  
+  
+  
+  <select id="insert" parameterType="Map">
+    insert into place_scraps(
+      user_no,
+      review_place_no
+     )values(
+      #{userNo},
+      #{reviewPlaceNo}
+    )
+  </select>
+  
+  <select id="findAll" resultMap="ScrapPlaceMap" parameterType="map">
+      select 
+      s.user_no,
+      s.review_place_no,
+      p.main_photo,
+      p.place_name,
+      p.place_basic_address,
+      p.place_detail_address,
+      p.place_review,
+      p.status
+    from place_scraps s
+      inner join review_place p on s.review_place_no=p.review_place_no
+    where 
+      s.user_no=#{no}
+    order by
+      review_place_no desc
+  </select>
+  
+  <delete id="delete" parameterType="map" >
+    delete from place_scraps
+    where review_place_no=#{no}
+  </delete>
+  
+</mapper>

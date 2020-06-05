@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="make.own.root.dao.CourseDayDao">
+
+  <resultMap type="CourseDay" id="CourseDayMap">
+    <id column="course_day_no"  property="no"/>
+    <result column="title"    property="title"/>
+    <result column="day_date"    property="dayDate"/>
+    
+    <association property="course" javaType="Course">
+      <id column="course_no"  property="no"/>
+    </association>
+    
+    <collection property="coursePlace" ofType="CoursePlace">
+      <id column="place_no"   property="no"/>
+    </collection>
+  </resultMap>
+  
+  <insert id="insert" parameterType="CourseDay"
+    useGeneratedKeys="true" keyColumn="course_day_no" keyProperty="no">
+    insert into course_days(title,day_date,course_no)
+    values(#{title}, #{dayDate}, #{course.no})
+  </insert>
+  
+  <select id="findAllByCourseNo" resultMap="CourseDayMap" parameterType="int">
+    select 
+      course_day_no,
+      title,
+      day_date
+    from course_days
+    where
+      course_no=#{no}
+    order by
+      course_day_no asc
+  </select>
+
+  
+  <select id="findByNo" resultMap="CourseDayMap" parameterType="int">
+    select 
+      d.course_day_no,
+      d.title,
+      d.day_date,
+      c.course_no,
+      p.place_no
+    from course_days d
+      inner join courses c on d.course_no=c.course_no
+      left outer join course_places p on d.course_day_no=p.course_day_no
+    where 
+      d.course_day_no=#{no}
+  </select>
+      
+  <update id="update" parameterType="CourseDay">
+    update course_days set
+      title=#{title},
+      day_date=#{dayDate}
+    where 
+      course_day_no=#{no}
+  </update>
+  
+  <delete id="delete" parameterType="int">
+    delete from course_days
+    where course_day_no=#{no}
+  </delete>
+  
+</mapper>
+
+
+
+
+
+
+

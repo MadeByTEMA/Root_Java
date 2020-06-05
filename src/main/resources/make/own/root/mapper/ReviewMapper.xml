@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="make.own.root.dao.ReviewDao">
+
+  <resultMap type="Review" id="ReviewMap">
+    <id column="review_no"  property="no"/>
+    <result column="create_date"    property="createdDate"/>
+    <result column="status"    property="status"/>
+    
+    <association property="user" javaType="User">
+      <id column="user_no"  property="no"/>
+    </association>
+    
+    <collection property="reviewDay" ofType="ReviewDay">
+      <id column="review_day_no"   property="no"/>
+    </collection>
+  </resultMap>
+  
+  
+  
+  <insert id="insert" parameterType="Review"
+    useGeneratedKeys="true" keyColumn="review_no" keyProperty="no">
+    insert into reviews(user_no, status)
+    values(#{user.no}, #{status})
+  </insert>
+  
+  <select id="findAllByUserNo" resultMap="ReviewMap" parameterType="int">
+    select 
+      review_no,
+      create_date,
+      status
+    from reviews
+    where
+      user_no=#{no}
+    order by
+      review_no asc
+  </select>
+  
+   <select id="findAll" resultMap="ReviewMap" parameterType="Map">
+    select 
+      review_no,
+      create_date,
+      status
+    from reviews
+    where
+      user_no
+    order by
+      review_no asc
+  </select>
+  
+  <update id="update" parameterType="Course">
+    update reviews set
+      create_date=#{createdDate},
+      <if test="status != null and status != ''">status=#{status}</if> 
+    where review_no=#{no}
+  </update>
+  
+  <select id="findByNo" resultMap="ReviewMap" parameterType="int">
+    select 
+      r.review_no,
+      r.create_date,
+      r.status,
+      u.user_no,
+      d.review_day_no
+    from reviews r
+      inner join users u on r.user_no=u.user_no
+      left outer join review_days d on r.review_no=d.review_no
+    where 
+      r.review_no=#{no}
+  </select>
+  
+  <delete id="delete" parameterType="int">
+    delete from reviews
+    where review_no=#{no}
+  </delete>
+  
+   <!-- Search -->
+   <select id="find" resultMap="ReviewMap" parameterType="int">
+    select
+      u.user_no,
+      r.review_no, r.create_date, r.status, 
+      d.review_day_no, d.title, d.day_date, d.day_review, d.main_photo, d.status,
+      p.review_place_no, p.place_name, p.place_basic_address, p.place_detail_address,
+      p.place_review, p.main_photo, p.status,
+    from reviews r
+      inner join users u on r.user_no=u.user_no
+      inner join review_days d on r.review_no=d.review_no
+      inner join review_place p on d.review_day_no=p.review_day_no
+    where 
+      p.review_place_no=#{no}
+  </select>
+
+
+
+</mapper>
+
+
+
+
+
+
+

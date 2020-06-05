@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="make.own.root.dao.CourseDao">
+
+  <resultMap type="Course" id="CourseMap">
+    <id column="course_no"  property="no"/>
+    <result column="create_date"    property="createdDate"/>
+    
+    <association property="user" javaType="User">
+      <id column="user_no"  property="no"/>
+    </association>
+    
+    <collection property="courseDay" ofType="CourseDay">
+      <id column="course_day_no"   property="no"/>
+    </collection>
+  </resultMap>
+  
+  
+  
+  <insert id="insert" parameterType="Course"
+    useGeneratedKeys="true" keyColumn="course_no" keyProperty="no">
+    insert into courses(user_no)
+    values(#{user.no})
+  </insert>
+  
+  <select id="findAllByUserNo" resultMap="CourseMap" parameterType="int">
+    select 
+      course_no,
+      create_date
+    from courses
+    where
+      user_no=#{no}
+    order by
+      course_no asc
+  </select>
+
+  <update id="update" parameterType="Course">
+    update courses set
+      create_date=#{createdDate}
+    where course_no=#{no}
+  </update>
+  
+  <select id="findByNo" resultMap="CourseMap" parameterType="int">
+    select 
+      c.course_no,
+      c.create_date,
+      u.user_no,
+      d.course_day_no
+    from courses c
+      inner join users u on c.user_no=u.user_no
+      left outer join course_days d on c.course_no=d.course_no
+    where 
+      c.course_no=#{no}
+  </select>
+  
+  <delete id="delete" parameterType="int">
+    delete from courses
+    where course_no=#{no}
+  </delete>
+  
+</mapper>
+
+
+
+
+
+
+
