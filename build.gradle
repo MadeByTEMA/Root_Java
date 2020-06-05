@@ -36,6 +36,12 @@ dependencies {
   // Servlet-API 컴파일 할 때만 사용한다. 서버에 이미 이 라이브러리가 있기 때문
   compileOnly 'javax.servlet:javax.servlet-api:4.0.1'
 
+  // JSTL API 및 구현 라이브러리
+  implementation 'jstl:jstl:1.2'
+
+  // Tiles 라이브러리 
+  implementation 'org.apache.tiles:tiles-jsp:3.0.8'
+
   implementation 'com.google.guava:guava:28.1-jre'
   testImplementation 'junit:junit:4.12'
 }
