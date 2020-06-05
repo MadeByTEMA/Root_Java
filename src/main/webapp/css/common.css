@@ -1,0 +1,61 @@
+body {
+  background: white;
+}
+div.headerOnLoginBar {
+	height: 40px;
+	width: 100%;
+}
+div.loginBarInFrame {
+	margin: 0px calc(50% - 600px) 0px calc(50% - 600px);
+	width: 1200px;
+}
+div.userStatusbar {
+	width:40%;
+	float:right;
+}
+div.displayLogin {
+  float:right;
+}
+div.signIn {
+  float:left;
+  background: #eb5d1e;
+  border-radius: 50px;
+  margin:10px 10px 0px 10px;
+  padding: 5px 10px;
+  width: 80px;
+  text-align: center;
+}
+div.signUp {
+  float:right;
+  background: #eb5d1e;
+  border-radius: 50px;
+  margin: 10px 10px 0px 10px;
+  padding: 5px 10px;
+  width: 80px;
+  text-align: center;
+}
+div.container-fluid.d-flex {
+	width: 1200px;
+  height: 40px;
+  margin: 10px calc(50% - 600px);
+}
+
+nav ul li {
+	margin: 0px 10px !important;
+}
+
+nav ul li a{
+  font-size: 20px;
+  padding: 6px 15px;
+}
+
+div div div div a {
+	color: #fff;
+}
+.fixed-top {
+  height: 110px !important;
+  padding: 0px !important;
+}
+#hero {
+	margin: 110px 0 -72px 0;
+}
