@@ -20,6 +20,8 @@
     <result column="nickname" property="nickName"/>
     <result column="account" property="account"/>
     <result column="bank" property="bank"/>
+    <result column="authKey" property="authKey"/>
+    <result column="auth_status" property="authStatus"/>
   </resultMap>
   
   <insert id="insert" parameterType="User"
@@ -37,7 +39,8 @@
     photo,
     nickname,
     account,
-    bank
+    bank,
+    authKey
     ) values(
       #{email},
       password(#{password}),
@@ -51,30 +54,10 @@
       #{photo},
       #{nickName},
       #{account},
-      #{bank}
+      #{bank},
+      #{authKey}
     )
   </insert>
-  
-  <select id="findAll" resultMap="UserMap">
-    select 
-    user_no,
-    email,
-    password,
-    user_name,
-    birthday,
-    gender,
-    phone_number,
-    zip_code,
-    basic_address,
-    detail_address,
-    photo,
-    nickname,
-    account,
-    bank
-    from 
-      users
-  </select>
-
   
   <select id="findByNo" resultMap="UserMap" parameterType="int">
     select 
@@ -149,6 +132,13 @@
    <update id="updatePassword" parameterType="User" >
     update users
     set password=password(#{password})
+    where 
+      email=#{email}
+  </update>
+  
+  <update id="updateAuthStatus" parameterType="User">
+    update users
+    set auth_status=1
     where 
       email=#{email}
   </update>
@@ -232,4 +222,6 @@
     select count(phone_number) from users
      where phone_number = #{tel}
 </select>
+
+
 </mapper>

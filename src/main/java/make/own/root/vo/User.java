@@ -17,6 +17,8 @@ public class User {
   int account; // account
   String bank; // bank
   int point; // setter 아직 정의 안함.
+  String authKey; // authKey
+  int authStatus; // auth_status
 
   public User() {}
 
@@ -46,10 +48,11 @@ public class User {
 
   @Override
   public String toString() {
-    return "User [no=" + no + ", email=" + email + ", password=" + password + ", name=" + name + ", birth=" + birth
-        + ", gender=" + gender + ", tel=" + tel + ", zipCode=" + zipCode + ", basicAddr=" + basicAddr + ", detailAddr="
-        + detailAddr + ", photo=" + photo + ", nickName=" + nickName + ", account=" + account + ", bank=" + bank
-        + ", point=" + point + "]";
+    return "User [no=" + no + ", email=" + email + ", password=" + password + ", name=" + name
+        + ", birth=" + birth + ", gender=" + gender + ", tel=" + tel + ", zipCode=" + zipCode
+        + ", basicAddr=" + basicAddr + ", detailAddr=" + detailAddr + ", photo=" + photo
+        + ", nickName=" + nickName + ", account=" + account + ", bank=" + bank + ", point=" + point
+        + ", authKey=" + authKey + ", authStatus=" + authStatus + "]";
   }
 
   public int getNo() {
@@ -58,22 +61,6 @@ public class User {
 
   public void setNo(int no) {
     this.no = no;
-  }
-
-  public String getEmail() {
-    return email;
-  }
-
-  public void setEmail(String email) {
-    this.email = email;
-  }
-
-  public String getPassword() {
-    return password;
-  }
-
-  public void setPassword(String password) {
-    this.password = password;
   }
 
   public String getName() {
@@ -100,6 +87,22 @@ public class User {
     this.gender = gender;
   }
 
+  public String getEmail() {
+    return email;
+  }
+
+  public void setEmail(String email) {
+    this.email = email;
+  }
+
+  public String getPassword() {
+    return password;
+  }
+
+  public void setPassword(String password) {
+    this.password = password;
+  }
+
   public String getTel() {
     return tel;
   }
@@ -112,8 +115,8 @@ public class User {
     return zipCode;
   }
 
-  public void setZipCode(String zipCode) {
-    this.zipCode = zipCode;
+  public String setZipCode(String zipCode) {
+    return this.zipCode = zipCode;
   }
 
   public String getBasicAddr() {
@@ -166,6 +169,22 @@ public class User {
 
   public int getPoint() {
     return point;
+  }
+
+  public String getAuthKey() {
+    return authKey;
+  }
+
+  public void setAuthKey(String authKey) {
+    this.authKey = authKey;
+  }
+
+  public int getAuthStatus() {
+    return authStatus;
+  }
+
+  public void setAuthStatus(int authStatus) {
+    this.authStatus = authStatus;
   }
 
 }
