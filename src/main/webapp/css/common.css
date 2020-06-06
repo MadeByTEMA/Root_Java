@@ -18,6 +18,7 @@ div.displayLogin {
 }
 div.signIn {
   float:left;
+  font-size: 14px;
   background: #eb5d1e;
   border-radius: 50px;
   margin:10px 10px 0px 10px;
@@ -27,6 +28,7 @@ div.signIn {
 }
 div.signUp {
   float:right;
+  font-size: 14px;
   background: #eb5d1e;
   border-radius: 50px;
   margin: 10px 10px 0px 10px;
@@ -38,6 +40,11 @@ div.container-fluid.d-flex {
 	width: 1200px;
   height: 40px;
   margin: 10px calc(50% - 600px);
+}
+
+div.mainContent {
+	margin: 110px calc(50% - 600px) 0px calc(50% - 600px) !important;
+  width: 1200px !important;
 }
 
 nav ul li {
