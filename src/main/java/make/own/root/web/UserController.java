@@ -147,7 +147,9 @@ public class UserController {
   @ResponseBody
   @RequestMapping(value = "telSearch", method = RequestMethod.POST)
   public int telSearch(String tel) throws Exception {
+    System.out.println(tel);
     int count = userService.telSearch(tel);
+    System.out.println("호출됐다" + count);
     return count;
   }
 
@@ -161,10 +163,7 @@ public class UserController {
   @ResponseBody
   @RequestMapping(value = "epSearch", method = RequestMethod.POST)
   public int epSearch(String email, String password) throws Exception {
-    System.out.println("email:"+email);
-    System.out.println("password:" + password);
     int count = userService.epSearch(email, password);
-    System.out.println("리턴 값" + count);
     return count;
 
   }
@@ -173,7 +172,6 @@ public class UserController {
   @RequestMapping(value = "enSearch", method = RequestMethod.POST)
   public int enSearch(String email, String name) throws Exception {
     int count = userService.enSearch(email, name);
-    System.out.println("리턴 값" + count);
     return count;
 
   }
