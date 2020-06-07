@@ -13,14 +13,14 @@
             <div class="displayUserNickName"></div>
           </div>
           <div class="displayLogin">
-            <div class="signIn"><a href="../mypage/form?no=${loginUser.no}">마이페이지</a></div>
-            <div class="signUp"><a href="../auth/logout">로그아웃</a></div>
+            <div class="signIn"><a href="../mypage/form?no=${loginUser.no}" style="color: #fff;">마이페이지</a></div>
+            <div class="signUp"><a href="../auth/logout" style="color: #fff;">로그아웃</a></div>
           </div>
          </c:if>
           <c:if test="${empty loginUser}">
 	          <div class="displayLogin">
-	            <div class="signIn"><a href="../auth/form">로그인</a></div>
-	            <div class="signUp"><a href="../user/form">회원가입</a></div>
+	            <div class="signIn"><a href="../auth/form" style="color: #fff;">로그인</a></div>
+	            <div class="signUp"><a href="../user/form" style="color: #fff;">회원가입</a></div>
 	          </div>
           </c:if>
         </div>

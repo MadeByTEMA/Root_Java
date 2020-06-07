@@ -20,6 +20,7 @@ div.signIn {
   float:left;
   font-size: 14px;
   background: #eb5d1e;
+  color: #fff;
   border-radius: 50px;
   margin:10px 10px 0px 10px;
   padding: 5px 10px;
@@ -30,6 +31,7 @@ div.signUp {
   float:right;
   font-size: 14px;
   background: #eb5d1e;
+  color: #fff;
   border-radius: 50px;
   margin: 10px 10px 0px 10px;
   padding: 5px 10px;
@@ -57,9 +59,7 @@ nav ul li a{
   padding: 6px 15px;
 }
 
-div div div div a {
-  color: #fff;
-}
+  
 .fixed-top {
   height: 110px !important;
   padding: 0px !important;

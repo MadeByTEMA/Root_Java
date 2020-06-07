@@ -8,7 +8,6 @@
       <div class="total">
         <div class="content">
           <h3>LOGIN</h3>
-
           <div class="form-group">
             <label for="name"></label> <input type="email"
               class="form-control" name="email" id="subject1"
