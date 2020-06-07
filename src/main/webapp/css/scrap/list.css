@@ -1,0 +1,38 @@
+div.titleArea {
+	padding-top :30px;
+	margin-bottom: 30px;
+	height:80px;
+}
+div.scrapArea {
+  padding: 0px 50px;
+}
+  
+div.dayScrapArea {
+	width: 100%;
+}
+div.dayScrapElement {
+	width: 100%;
+	min-height: 300px;
+	margin-bottom: 50px;
+}
+div.dayMainPhotoArea {
+	width: 400px;
+  float: left;
+  margin: 0px 30px;
+}
+div.dayContentArea {
+	float:right;
+	width:540px;
+}
+div.dayContentTopArea {
+	width: 100%;
+}
+
+h2 {
+    color: #a08f86;
+}
+
+h5 {
+    color: #a08f86;
+}
+
