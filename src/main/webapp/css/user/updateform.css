@@ -1,0 +1,170 @@
+/* .all{
+	text-align:center; 
+border:spx;
+margin: 30px 300px 0px 300px;
+border-radius: 10px;
+  border-style: solid ;
+  border-color: #fef8f5;
+}
+
+.total{
+text-align:center;
+
+}
+
+h3{
+text-align:center; 
+  color: #a08f86;
+  font-size: 40px;
+    margin-bottom: 30px;
+}
+
+.content{
+text-align:center; 
+
+
+}
+
+.context-box{
+border: 0;
+outline: 0;
+border-radius: 8px;
+background:#F2F2F2;
+padding-left: 10px;
+width:370px;
+height:50px;
+}
+
+.context-box:hover{
+background:#E0F8EC;
+}
+
+.context-text{
+text-align:left;
+}
+
+#btn{
+text-align:center;
+color:white;
+border: 0;
+outline: 0;
+width: 370px;
+height: 60px;
+border-radius: 6px;
+background:#eb5d1e;
+margin-bottom:10px;
+}
+
+
+
+.search {
+padding-right: 145px;
+}
+
+<style> input[type=text], select { width: 100%;
+ padding: 12px 20px; 
+ margin: 8px 0; 
+ display: inline-block; 
+ border: 1px solid #ccc; 
+ border-radius: 4px; 
+ box-sizing: border-box; } input 태그 중에서 특정 타입에만 스타일을 적용하려면, 아래와 같이 속성 선택자 (attribute selectors) 를 사용할 수 있습니다. input[type=text] {} 텍스트를 입력받는 input 태그에 스타일을 지정합니다. input[type=password] {} 비밀번호 (password) 를 입력받는 input 태그에 스타일을 지정합니다. input[type=number] {} 숫자를 입력받는 input 태그에 스타일을 지정합니다. 박스-크기 속성 (box-sizing property) 에 대해 속성값을 테두리-박스 (border-box) 로 지정하였습니다. 이렇게 하면 박스의 전체 크기는, 패딩과 테두리를 포함한 폭과, 높이를 갖게 됩니다. (기본적으로 테두리는 패딩을 포함하고, 마진은 제외하므로, box-sizing: border-box; 속성은 없어도 동일한 스타일로 보일 것입니다).
+  input[type=submit] { width: 100%; background-color: orange; color: white; padding: 14px 20px; margin: 8px 0; border: none; border-radius: 4px; cursor: pointer; } 텍스트 필드 안쪽에 패딩 과 마진을 주었습니다. 배경-색상 속성 (background-color property) 으로 입력 버튼의 배경 색을 지정하였습니다. 그리고 색상 속성 (color property) 으로 글자 색을 지정합니다. 
+  input[type=submit]:hover { background-color: OrangeRed; } input[type=text]:focus { background-color: lightblue; border: 3px solid #555; } 포커스 인풋 (Focused Inputs) 은 텍스트 입력 상자에 커서를 놓았을 때, 어떤 브라우저는 테두리에 청색 외곽선을 자동으로 보여줍니다. 이 기능을 없애려면 outline: none; 속성을 인풋 (input) 태그에 지정하면 됩니다. 반면 :focus 가상-클래스를 지정하여 커서를 놓았을 때 배경색이나 테두리 속성을 바꾸어 주어 사용자에게 어디를 작업하고 있는지를 좀더 명확히 알 수 있게 할 수 있습니다. 
+  div.formtag { border-radius: 5px; background-color: #f2f2f2; padding: 40px; } </style> <h3>CSS 로 HTML 폼 태그에 스타일 입히기</h3> <div class="formtag"> <form action="#"> <label for="fname">이름</label> <input type="text" id="fname" name="이름"> <label for="lname">성</label> <input type="text" id="lname" name="성"> <label for="country">국적</label> <select id="country" name="국적"> <option value="대한민국">대한민국</option> <option value="중국">중국</option> <option value="일본">일본</option> </select> <input type="submit" value="제출하기"> </form> </div>
+ */
+
+
+
+/*
+*
+* ==========================================
+* CUSTOM UTIL CLASSES
+* ==========================================
+*
+*/
+
+hr.dashed {
+    border-top: 2px dashed #999;
+}
+
+hr.dotted {
+    border-top: 2px dotted #999;
+}
+
+hr.solid {
+    border-top: 2px solid #999;
+}
+
+
+hr.hr-text {
+  position: relative;
+    border: none;
+    height: 1px;
+    background: #999;
+}
+
+hr.hr-text::before {
+    content: attr(data-content);
+    display: inline-block;
+    background: #fff;
+    font-weight: bold;
+    font-size: 0.85rem;
+    color: #999;
+    border-radius: 30rem;
+    padding: 0.2rem 2rem;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+
+
+
+/*
+*
+* ==========================================
+* FOR DEMO PURPOSES
+* ==========================================
+*
+*/
+
+body {
+    min-height: 100vh;
+    background-color: #fff; 
+    color: #333;
+}
+.text-uppercase {
+  letter-spacing: .1em;
+}
+input{
+	border-color:transparent;
+	    font-family: "Raleway", sans-serif;
+	    font-size: 12px;
+	    
+	
+	
+}
+input:focus{
+
+    outline: none;
+
+}
+
+#btn2{
+text-align:center;
+color:white;
+border: 0;
+outline: 10;
+width: 70px;
+height: 20px;
+border-radius: 6px;
+background:#ff9b69;
+margin-top:20px;
+margin-left:300px;
+padding-left: 10px;
+padding-right: 10px;
+padding-top: 3px;
+padding-bottom: 3px;
+}
+
