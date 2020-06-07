@@ -49,7 +49,6 @@
 <title>나만의 루트를 만들다. 루트</title>
 </head>
 <body>
-
 <div class='header'>
 <tiles:insertAttribute name="header"/>
 </div>

@@ -33,7 +33,6 @@
         <!-- Uncomment below if you prefer to use an image logo -->
        <a href="index.html"><img src="img/logo.png" alt="" class="img-fluid"></a>
       </div>
-
       <nav class="nav-menu d-none d-lg-block">
         <ul>
           <li class="active"><a href="http://localhost:9999/Java">Home</a></li>
