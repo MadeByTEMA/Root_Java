@@ -10,13 +10,22 @@ import make.own.root.vo.CourseDay;
 //
 public interface CourseDayDao {
 
+  // CourseServiceImpl add(Course course), update(Course course)에서 호출
+  // CourseDayServiceImpl add(CourseDay courseDay, update(CourseDay courseDay에서 호출
   int insert(CourseDay courseDay) throws Exception;
 
+  // CourseServiceImpl list(int userNo), get(int no), delete(int no)에서 호출
+  // CourseDayServiceImpl list(int userNo)에서 호출
   List<CourseDay> findAllByCourseNo(int courseNo) throws Exception;
 
+  // CourseDayServiceImpl get(int no)에서 호출
   CourseDay findByNo(int no) throws Exception;
 
+  // CourseServiceImpl update(Course course)에서 호출
+  // CourseDayServiceImpl update(CourseDay courseDay)에서 호출
   int update(CourseDay courseDay) throws Exception;
 
+  // CourseServiceImpl delete(int no)에서 호출
+  // CourseDayServiceImpl delete(int no)에서 호출
   int delete(int no) throws Exception;
 }

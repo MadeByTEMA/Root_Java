@@ -12,6 +12,7 @@ public interface ReviewPlaceDao {
 
   int insert(ReviewPlace reviewPlace) throws Exception;
 
+  // ScrapDayServiceImpl list(int userNo)에서 호출
   List<ReviewPlace> findAllByReviewDayNo(int reviewDayNo) throws Exception;
 
   ReviewPlace findByNo(int no) throws Exception;
