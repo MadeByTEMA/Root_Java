@@ -49,7 +49,7 @@ public class UserServiceImpl implements UserService {
     // mail 작성 관련
     MimeMessage mail = mailSender.createMimeMessage();
     String mailContent = "<h1>[이메일 인증]</h1><br><p>아래 링크를 클릭하시면 이메일 인증이 완료됩니다.</p>"
-        + "<a href='http://localhost:9999/Root_Project/app/user/joinConfirm?email="
+        + "<a href='http://localhost:9999/Root_Java/app/user/joinConfirm?email="
         + user.getEmail() + "&authKey=" + authKey + "' target='_blenk'>이메일 인증 확인</a>";
 
     try {
