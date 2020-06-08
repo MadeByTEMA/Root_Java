@@ -10,22 +10,36 @@ import make.own.root.vo.ReviewPlace;
 //
 public interface ReviewPlaceDao {
 
+  // ReviewServiceImpl add(Review review)에서 호출
+  // ReviewDayServiceImpl add(ReviewDay reviewDay)에서 호출
+  // ReviewPlaceServiceImpl add(ReviewPlace reviewPlace)에서 호출
   int insert(ReviewPlace reviewPlace) throws Exception;
 
   // ScrapDayServiceImpl list(int userNo)에서 호출
+  // ReviewServiceImpl list(int userNo), get(int no), delete(int no)에서 호출
+  // ReviewDayServiceImpl list(int reviewNo), get(int no), delete(int no)에서 호출
+  // ReviewPlaceServiceImpl list(int reviewDayNo)에서 호출
   List<ReviewPlace> findAllByReviewDayNo(int reviewDayNo) throws Exception;
 
+  // ReviewPlaceServiceImpl get(int no)에서 호출
   ReviewPlace findByNo(int no) throws Exception;
 
+  // ReviewServiceImpl update(Review review)에서 호출
+  // ReviewPlaceServiceImpl update(ReviewPlace reviewPlace)에서 호출
   int update(ReviewPlace reviewPlace) throws Exception;
 
+  // ReviewServiceImpl delete(int no)에서 호출
+  // ReviewDayServiceImpl delete(int no)에서 호출
+  // ReviewPlaceServiceImpl delete(int no)에서 호출
   int delete(int no) throws Exception;
 
   //search
   List<ReviewPlace> findAll() throws Exception;
 
-  ReviewPlace findReviewPlaceDataByReviewPlaceNo(int reviewPlaceNo) throws Exception;
+  // ReviewPlaceServiceImpl searchPlaceGet(int no)에서 호출
+  ReviewPlace find(int no) throws Exception;
 
   // searchlist
+  // ReviewPlaceServiceImpl search(String keyword)에서 호출
   List<ReviewPlace> findByKeyword(String keyword) throws Exception;
 }

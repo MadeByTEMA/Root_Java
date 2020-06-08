@@ -10,18 +10,24 @@ import make.own.root.vo.Review;
 //
 public interface ReviewDao {
 
+  // ReviewServiceImpl add(Review review)에서 호출
   int insert(Review review) throws Exception;
 
+  // ReviewServiceImpl list(int userNo)에서 호출
   List<Review> findAllByUserNo(int userNo) throws Exception;
 
+  // ReviewServiceImpl get(int no)에서 호출
   Review findByNo(int no) throws Exception;
 
+  // ReviewServiceImpl update(Review review)에서 호출
   int update(Review review) throws Exception;
 
+  // ReviewServiceImpl delete(int no)에서 호출
   int delete(int no) throws Exception;
 
   //search
   List<Review> findAll() throws Exception;
 
-  Review findReviewDataByReviewNo(int reviewNo) throws Exception;
+  // ReviewServiceImpl getByPlaceNo(int placeNo)에서 호출
+  Review find(int no) throws Exception;
 }
