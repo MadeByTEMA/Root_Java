@@ -10,6 +10,7 @@ div.scrapArea {
 div.dayScrapArea {
 	width: 100%;
 }
+
 div.dayScrapElement {
 	width: 100%;
 	min-height: 300px;
@@ -27,12 +28,71 @@ div.dayContentArea {
 div.dayContentTopArea {
 	width: 100%;
 }
+div.scrapSelector {
+	margin-bottom: 20px;
+}
+div.dayContentTopArea {
+  width: 540px;
+  height: 40px;
+  margin: 15px 0px;
+  max-width: 100%;
+  padding: .67857143em 1em;
+  border: 1px solid rgba(34,36,38,.15);
+  border-radius: .28571429rem;
+}
+div.dayContentMainReview {
+  width: 540px;
+  height: 160px;
+  margin: 15px 0px;
+  max-width: 100%;
+  padding: .67857143em 1em;
+  border: 1px solid rgba(34,36,38,.15);
+  border-radius: .28571429rem;
+}
+div.dayContentInPlaceNameArea {
+	width: 540px;
+  height: 40px;
+  max-width: 100%;
+  margin: 15px 0px;
+  text-align:center;
+}
+div.dayContentInPlaceName {
+  padding: .67857143em 1em;
+  border: 1px solid rgba(34,36,38,.15);
+  border-radius: .28571429rem;
+  display: inline-block;
+  margin: 0 5px 0 5px;
+}
+
+div.placeScrapArea {
+  width: 100%;
+  padding-left: 30px;
+}
+div.placeScrapElement {
+   width: 300px;
+   height: 300px;
+   float: left;
+   margin: 0px 0px 30px 20px;
+}
+div.placeNameArea {
+	height: 40px;
+   text-align: center;
+   font-size: 20px;
+   margin: 10px;
+}
+div.placeName {
+	height: 100%;
+  line-height: 200%;
+}
 
 h2 {
-    color: #a08f86;
+  color: #a08f86;
+  font-size: 32px;
 }
 
 h5 {
-    color: #a08f86;
+	font-size: 20px;
+  margin-bottom: 20px;
+  color: #a08f86;
 }
 
