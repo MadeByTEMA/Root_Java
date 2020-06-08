@@ -56,10 +56,5 @@
            </div>
      </c:forEach>
    </div>
-  <script>
-    console.log(document.querySelectorAll('.placeScrapElement').length / 3);
-    console.log(parseInt(document.querySelectorAll('.placeScrapElement').length / 3));
-    $('.placeScrapArea').css('height', ((parseInt(document.querySelectorAll('.placeScrapElement').length / 3) + 1) * 300) + 'px');
-  </script>
-   
 </div>
+<script type="text/JavaScript" src="../../js/scrap/list.js">  </script>
