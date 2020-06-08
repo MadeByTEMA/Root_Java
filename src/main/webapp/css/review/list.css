@@ -1,0 +1,88 @@
+div.titleArea {
+  padding-top :30px;
+  margin-bottom: 30px;
+  height:80px;
+}
+div.reviewArea {
+  padding: 0px 25px;
+  height: 1000px;
+}
+div.reviewPlusForm {
+	float: left;
+  height: 300px;
+  width: 300px;
+  margin: 0px 25px 30px 25px;
+  border: 1px solid rgba(34,36,38,.15);
+  text-align: center;
+  border-radius: .28571429rem;
+}
+div.reviewPlusIcon {
+  line-height: 298px;
+}
+div.reviewForm {
+	float: left;
+  height: 300px;
+  width: 300px;
+  margin: 0px 25px 30px 25px;
+  border: 1px solid rgba(34,36,38,.15);
+  padding: 10px;
+  border-radius: .28571429rem;
+}
+div.title {
+	height: 20px;
+	white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  min-width: 100%;
+  margin: 50px 0px 50px;
+}
+div.reviewScrapArea {
+  height: 20px;
+  margin: 50px 0px 50px;
+}
+div.reviewDayScrapArea {
+  height: 20px;
+  float:left;
+  width: 50%;
+}
+div.displayScrapCount {
+  height: 20px;
+  float:left;
+  width: 80px;
+}
+div.dayScrap {
+  height: 20px;
+  float:right;
+  width: 50px;
+  margin-right: 10px;
+}
+div.reviewPlaceScrapArea {
+  height: 20px;
+  float:right;
+  width: 50%;
+}
+div.placeScrap {
+  height: 20px;
+  float:right;
+  width: 50px;
+  margin-right: 10px;
+}
+div.reviewStatusButtonArea {
+  height: 40px;
+  margin: 50px 0px 50px;
+}
+div.reviewStatusButtonLeftArea {
+  height: 40px;
+  float:left;
+  margin: 0px calc(25% - 50px);
+}
+div.reviewStatusButtonRightArea {
+  height: 40px;
+  float: right;
+  margin: 0px calc(25% - 50px);
+}
+
+h2 {
+  color: #a08f86;
+  font-size: 32px;
+}
