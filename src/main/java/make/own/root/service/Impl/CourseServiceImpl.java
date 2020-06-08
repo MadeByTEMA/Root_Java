@@ -64,6 +64,7 @@ public class CourseServiceImpl implements CourseService {
     return result;
   }
 
+  // ReviewController form()에서 호출
   // CourseController list()에서 호출
   @Transactional
   @Override
