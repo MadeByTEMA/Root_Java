@@ -1,0 +1,23 @@
+div.titleArea {
+  padding-top :30px;
+  margin-bottom: 30px;
+  height:80px;
+}
+div.courseArea {
+  padding: 0px 50px;
+}
+div.courseTitleArea {
+	margin-bottom: 20px;
+}
+  
+h2 {
+  color: #a08f86;
+  font-size: 32px;
+}
+
+th {
+  padding: 8px;
+	border-top: 1px solid #dee2e6;
+	border-bottom: 2px solid #dee2e6;
+  background-color: #fef8f5;
+}
