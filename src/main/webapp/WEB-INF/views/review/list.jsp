@@ -14,7 +14,7 @@
     </div>
     <c:forEach items="${list}" var="review">
     <c:forEach items="${review.reviewDay}" var="reviewday">
-    <div class="reviewForm" data-value="${reviewday.mainPhoto}">
+    <div class="reviewForm" onclick="location.href='form?no=${review.no}'" data-value="${reviewday.mainPhoto}">
       <div class="title">${reviewday.title}</div>
       <div class="reviewScrapArea">
         <div class="reviewDayScrapArea">

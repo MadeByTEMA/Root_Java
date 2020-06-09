@@ -57,7 +57,7 @@ $('#exitButton').on("click", function() {
   $('#loadCourseModal').modal('hide');
 });
 
-$('#mainPhoto').on("click", function() {
+$('.mainPhotoArea').on("click", function() {
   $('.reviewDayMainPhoto').click();
 });
 

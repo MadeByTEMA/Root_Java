@@ -8,45 +8,51 @@
 		<div class="topAreaDiv">
 		  <div class="topStatusbar">
 		    <div class="topStatusLeftStatusbar">
-	        <div class="ui calendar" id="button_calendar">
-	          <div class="ui button">여행시작일</div>
-	        </div>
-		      <div id="dropdown" class="ui disabled dropdown">
-		        <input type="hidden" name="selectDate">
-		        <i class="dropdown icon"></i>
-		        <div class="default text">Day<div class="innerDate"></div></div>
-		          <div class="menu">
-		            <div class="item" draggable="true" ondragstart="courseDateDrag(event)" ondrop="courseDateDrop(event)" ondragover="allowDrop(event)" data-text="2020-05-02">
-		              <div class="innerline">
-		                <div class="innerlineDay">Day1</div><div class="innerlineDate" onclick="displaySelectReviewDateData(this);">2020-05-04</div></div>
-		              <div class="minusArea">
-		                <i class="minus icon"></i>
-		              </div>
-		            </div>
-		            <div class="datePlus">
-		              <i class="plus icon" onclick="addDate(this);"></i>
-		            </div>
-		        </div>
-		      </div>
+		      <div class="myCourseLoadDiv">
+            <i class="big cloud download alternate icon"></i>
+            <div class="myCourseLoadText">내 코스 불러오기</div>
+          </div>
 		    </div>
 		    <div class="topStatusRightStatusbar">
-		      <div class="myCourseLoadDiv">
-		        <i class="big cloud download alternate icon"></i>
-		        <div class="myCourseLoadText">내 코스 불러오기</div>
-		      </div>
-		      <div class="mainPictureUploadDiv">
-		        <i id="mainPhoto" class="bordered big camera retro icon"></i>
-		          <input class="reviewDayMainPhoto" name="reviewDayMainPhotos" type="file" style="display:none"/>
-		      </div>
+          <div class="ui calendar" id="button_calendar">
+            <div class="ui button">여행시작일</div>
+          </div>
+          <div id="dropdown" class="ui disabled dropdown">
+            <input type="hidden" name="selectDate">
+            <i class="dropdown icon"></i>
+            <div class="default text">Day<div class="innerDate"></div></div>
+              <div class="menu">
+                <div class="item" draggable="true" ondragstart="courseDateDrag(event)" ondrop="courseDateDrop(event)" ondragover="allowDrop(event)" data-text="2020-05-02">
+                  <div class="innerline">
+                    <div class="innerlineDay">Day1</div><div class="innerlineDate" onclick="displaySelectReviewDateData(this);">2020-05-04</div></div>
+                  <div class="minusArea">
+                    <i class="minus icon"></i>
+                  </div>
+                </div>
+                <div class="datePlus">
+                  <i class="plus icon" onclick="addDate(this);"></i>
+                </div>
+            </div>
+          </div>
 		    </div>
 		  </div>
-		  <div class='topTitlebar'> 
-		    <h1> <input class="title" name="titles" type="text" placeholder="제목"></h1>
-		  </div>
-		  <div class='topMainReviewbar'> 
-		    <p> <input class="mainReview" name="mainReviews" type="text" placeholder="메인 후기"></p>
+		  <div class="dayReviewArea"> <!-- 이제 여기 건드려야 함. -->
+		    <div class="dayReviewLeftArea"> 
+			    <div class="mainPhotoArea">
+			      <input class="reviewDayMainPhoto" name="reviewDayMainPhotos" type="file" style="display:none"/>
+			    </div>
+		    </div>
+		    <div class="dayReviewRightArea"> 
+          <div class="titleArea">
+          <h1> <input class="title" name="titles" type="text" placeholder="제목"></h1>
+          </div>
+          <div class="mainReviewArea">
+          <p> <input class="mainReview" name="mainReviews" type="text" placeholder="메인 후기"></p>
+          </div>
+        </div>
 		  </div>
 		</div>
+		
 		<div class='courseNameDiv'>
 		  <h1>Course</h1>
 		</div>
