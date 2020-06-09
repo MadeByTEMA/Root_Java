@@ -34,6 +34,16 @@ div.myCourseLoadText {
 div.default.text {
   width: 100%;
 }
+div.innerlineDay {
+	font-size: 13px;
+  float: left;
+  margin-right: 12px;
+}
+div.innerlineDate {
+  font-size: 13px;
+  float: left;
+  margin-right: 12px;
+}
 div.dayCount {
 	float:left;
 	line-height: 20px;
@@ -90,8 +100,8 @@ div.reviewPlace {
   padding: 10px 0px 10px 0px;
 }
 div.reviewPlaceLeftArea {
+  display: inline-block;
 	margin: 10px;
-  float:left;
   width: 540px;
   height: 360px;
 }
@@ -180,32 +190,43 @@ div.dayLeftTopbar {
 	float:left;
 }
 div.myCourseTitle {
-  font-size: 20px;
+  font-size: 24px;
+  line-height: 30px;
 }
 div.dayRightTopbar {
 	width:30%;
   float:right;
 }
 div.myCourseDayDate {
-  font-size: 20px;
+  font-size: 24px;
   float:left;
+  line-height: 30px;
 }
 div.myCourseSelect {
   float:right;
+  line-height: 22px;
 }
 div.dayMainContent {
 	margin: 20px 50px;
-	font-size: 12px;
+}
+div.myCoursePlaceName {
+	font-size: 20px;
 }
 div.myCoursePlaceAddr {
 	margin: 10px 50px;
 }
-
+div.myCoursePlaceBasicAddr {
+	float: left;
+  margin-right: 20px;
+  font-size: 16px;
+}
+div.myCoursePlaceDetailAddr {
+	font-size: 16px;
+}
 div.footerButton {
 	min-height: 60px;
 }
 #loadCourseModal {
-	max-height: calc(80vh - 0em);
 	margin: 8vh 0px;
 }
 

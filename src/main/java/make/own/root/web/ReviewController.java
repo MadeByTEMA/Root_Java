@@ -61,7 +61,15 @@ public class ReviewController {
     }
     if (!no.equals("newForm")) {
       int reviewNo = Integer.parseInt(no);
-      session.setAttribute("review", reviewService.get(reviewNo));
+
+      Review review = reviewService.get(reviewNo);
+      for (ReviewDay reviewDay : review.getReviewDay()) {
+        reviewDay.setMainPhoto("http://localhost:9999/Root_Java/upload/review/" + reviewDay.getMainPhoto());
+        for (ReviewPlace reviewPlace : reviewDay.getReviewPlace()) {
+          reviewPlace.setMainPhoto("http://localhost:9999/Root_Java/upload/review/" + reviewPlace.getMainPhoto());
+        }
+      }
+      session.setAttribute("review", review);
       model.addAttribute("list", courseService.list(user.getNo()));
     } else {
       session.removeAttribute("review");
@@ -85,7 +93,7 @@ public class ReviewController {
       String[] detailAddrs, //
       String[] placeReviews, //
       String[] reviewPlaceMainPhotos //
-  ) throws Exception {
+      ) throws Exception {
     User user = (User) session.getAttribute("loginUser");
     if (user == null) {
       throw new Exception("유저 번호가 유효하지 않습니다.");
@@ -122,7 +130,7 @@ public class ReviewController {
         if (reviewDayMainPhotos[dayIndex].indexOf("temp") >= 0) {
           String filePath = servletContext.getRealPath("/upload/review");
           String tempPath = servletContext.getRealPath("/upload/review/temp");
-          String filename = reviewDayMainPhotos[dayIndex].split("temp")[1];
+          String filename = reviewDayMainPhotos[dayIndex].split("temp/")[1];
           (new File(tempPath + "//" + filename)).renameTo(new File(filePath + "//" + filename));
           reviewday.setMainPhoto(filename);
         }
@@ -136,7 +144,7 @@ public class ReviewController {
           if (reviewPlaceMainPhotos[i + count].indexOf("temp") >= 0) {
             String filePath = servletContext.getRealPath("/upload/review");
             String tempPath = servletContext.getRealPath("/upload/review/temp");
-            String filename = reviewPlaceMainPhotos[i + count].split("temp")[1];
+            String filename = reviewPlaceMainPhotos[i + count].split("temp/")[1];
             (new File(tempPath + "//" + filename)).renameTo(new File(filePath + "//" + filename));
             reviewplace.setMainPhoto(filename);
           }
@@ -182,7 +190,7 @@ public class ReviewController {
         if (reviewDayMainPhotos[dayIndex].indexOf("temp") >= 0) {
           String filePath = servletContext.getRealPath("/upload/review");
           String tempPath = servletContext.getRealPath("/upload/review/temp");
-          String filename = reviewDayMainPhotos[dayIndex].split("temp")[1];
+          String filename = reviewDayMainPhotos[dayIndex].split("temp/")[1];
           (new File(tempPath + "//" + filename)).renameTo(new File(filePath + "//" + filename));
           reviewday.setMainPhoto(filename);
         }
@@ -196,7 +204,7 @@ public class ReviewController {
           if (reviewPlaceMainPhotos[i + count].indexOf("temp") >= 0) {
             String filePath = servletContext.getRealPath("/upload/review");
             String tempPath = servletContext.getRealPath("/upload/review/temp");
-            String filename = reviewPlaceMainPhotos[i + count].split("temp")[1];
+            String filename = reviewPlaceMainPhotos[i + count].split("temp/")[1];
             (new File(tempPath + "//" + filename)).renameTo(new File(filePath + "//" + filename));
             reviewplace.setMainPhoto(filename);
           }
@@ -244,7 +252,7 @@ public class ReviewController {
       System.out.println(newFile.getName());
 
       ObjectMapper objectMapper = new ObjectMapper();
-      response.getWriter().write(objectMapper.writeValueAsString("temp" + newFile.getName()));
+      response.getWriter().write(objectMapper.writeValueAsString("http://localhost:9999/Root_Java/upload/review/temp/" + newFile.getName()));
     }
   }
 

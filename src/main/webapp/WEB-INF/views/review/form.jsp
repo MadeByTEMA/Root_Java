@@ -39,10 +39,10 @@
 		  <div class="dayReviewArea">
 		    <div class="dayReviewLeftArea"> 
 			    <div class="mainPhotoArea">
-			      <img src='${pageContext.servletContext.contextPath}/upload/review/'
+			      <img class="displayReviewDayMainPhoto" src=''
             height='360' width='540'>
-			      <input class="reviewDayMainPhoto" name="reviewDayMainPhotos" type="file" style="display:none"/>
 			    </div>
+			    <input class="reviewDayMainPhoto" name="reviewDayMainPhotos" type="file" style="display:none"/>
 		    </div>
 		    <div class="dayReviewRightArea"> 
           <div class="titleArea">
@@ -69,16 +69,13 @@
 		<div class="mainContentArea"> 
 		  <div class="reviewPlaceArea"><div class="reviewPlace">
 		    <div class="reviewPlaceLeftArea">
-		      <img src='${pageContext.servletContext.contextPath}/upload/review/'
+		      <img class="displayReviewPlaceMainPhoto" src=''
           height='360' width='540'>
-		      <input class="reviewPlaceMainPhoto" name="reviewPlaceMainPhotos" type="file" style="display:none"/>
 		    </div>
+		    <input class="reviewPlaceMainPhoto" name="reviewPlaceMainPhotos" type="file" style="display:none"/>
 		    <div class="reviewPlaceRightArea">
 		      <div class="reviewPlaceRemoveArea">
 		         <div class="placeRemoveMinusArea" style="color: #fff;">장소삭제</div>
-		      <!-- 
-		        <i id="placeRemoveMinusButtonIcon" class="big minus circle icon"></i>
-		         -->
           </div>
           <div class="reviewPlaceNameArea">
             <input class="placeName" name="names" type="text" onchange="matchShowReivewPlaceName();" value="" placeholder="장소명">
@@ -140,7 +137,7 @@
 	</div>
 </form>
 
-<div class="ui basic modal">
+<div id="submitModal" class="ui basic modal">
   <div class="ui icon header">
     <i class="archive icon"></i>
     저장하시겠습니까 ?
@@ -162,7 +159,7 @@
   <div class="header">
     내 코스 불러오기
   </div>
-  <div class="mainContent">
+  <div class="courseContentArea">
     <div class="myCourseContent">
     <c:forEach items="${list}" var="course" varStatus="courseStatus">
     <c:forEach items="${course.courseDay}" var="courseDay" varStatus="dayStatus">

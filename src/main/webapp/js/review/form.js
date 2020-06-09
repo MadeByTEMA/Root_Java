@@ -43,13 +43,45 @@ $('#placeAddPlusButtonIcon').on("click", function() {
   addFormByEvent();
 });
 
-$('.reviewPlaceArea').on("click", '.big.camera.icon', function(event) {
-  $('.reviewPlaceMainPhoto').eq($(event.target.parentNode.parentNode.parentNode).index()).click();
+$('.mainPhotoArea').on("click", function() {
+  $('.reviewDayMainPhoto').click();
 });
 
-$('.topStatusRightStatusbar').on("click", '.myCourseLoadDiv',function() {
-  $('#loadCourseModal').modal('show');
+$('.dayReviewLeftArea').on("change", '.reviewDayMainPhoto', function() {
+  let index;
+  if (typeof document.querySelectorAll('.dayCount')[0] == 'undefined'){
+    index = 0;
+  } else {
+    index = (document.querySelectorAll('.dayCount')[0].innerHTML).split('Day')[1] - 1;
+  }
+  mainPhotoSave(index);
+  changeMainImage(index);
 });
+
+$('.reviewPlaceArea').on("click", '.reviewPlaceLeftArea', function(event) {
+  $('.reviewPlaceMainPhoto').eq($(event.target.parentNode.parentNode).index()).click();
+});
+
+$('.reviewPlaceArea').on("change", '.reviewPlaceMainPhoto', function(event) {
+  let index;
+  if (typeof document.querySelectorAll('.dayCount')[0] == 'undefined'){
+    index = 0;
+  } else {
+    index = (document.querySelectorAll('.dayCount')[0].innerHTML).split('Day')[1] - 1;
+  }
+  let i = $(event.target.parentNode).index();
+  mainPhotoSave(index, $(event.target.parentNode).index());
+  changeMainImage(index, i);
+});
+
+$('.topStatusLeftStatusbar').on("click", '.myCourseLoadDiv',function() {
+  $('#loadCourseModal').modal({
+    active    : 'active',
+    scrolling : 'scrolling'
+  })
+  .modal('show');
+});
+
 $('#loadCourseModal').on("click", '.ui.red.rating', function(event) {
   loadCourseByModal(event.target.parentNode.parentNode.parentNode.parentNode.parentNode);
 });
@@ -57,12 +89,8 @@ $('#exitButton').on("click", function() {
   $('#loadCourseModal').modal('hide');
 });
 
-$('.mainPhotoArea').on("click", function() {
-  $('.reviewDayMainPhoto').click();
-});
-
-$('.reviewPlaceRemoveArea').on("click", '.placeRemoveMinusArea', function(e) {
-    removeForm(e);
+$('.mainContentArea').on("click", '.placeRemoveMinusArea', function(e) {
+  removeForm(e);
 });
 
 $('#button_calendar')
@@ -94,6 +122,16 @@ $('#button_calendar')
   }
 });
 
+function changeMainImage(index, i) {
+  setTimeout(() => {
+    if (typeof i != "undefined") {
+      document.querySelectorAll('.displayReviewPlaceMainPhoto')[i].src = review[index][i].mainPhoto;
+    } else {
+      document.querySelectorAll('.displayReviewDayMainPhoto')[0].src = review[index].mainPhoto;
+    }
+  }, 100);
+}
+
 function loadCourseByModal(targetDiv) {
   var reviewDay = new Array();
   for (let i = 0; i < $(targetDiv).find('.myCoursePlaceName').length; i++) {
@@ -110,7 +148,8 @@ function loadCourseByModal(targetDiv) {
 }
 
 function submitForm(status) {
-  $('.ui.modal').modal({
+  console.log("status " + status + " 실행됨.")
+  $('#submitModal').modal({
     onApprove: function (e) {
       if (e.hasClass('ok')) {
         submit(status);
@@ -119,13 +158,21 @@ function submitForm(status) {
   }).modal('show')
 }
 
-function placeMainPhotoSave(index, i) {
+function mainPhotoSave(index, i) {
   var xhrRequest = new XMLHttpRequest();
   xhrRequest.addEventListener('load', () => {
-    review[index][i].mainPhoto = xhrRequest.response;
+    if (typeof i != "undefined") {
+      review[index][i].mainPhoto = xhrRequest.response;
+    } else {
+      review[index].mainPhoto = xhrRequest.response;
+    }
   });
   const data = new FormData();
-  data.append('upload', document.querySelectorAll('.reviewPlaceMainPhoto')[i].files[0]);
+  if (typeof i != "undefined") {
+    data.append('upload', document.querySelectorAll('.reviewPlaceMainPhoto')[i].files[0]);
+  } else {
+    data.append('upload', document.querySelectorAll('.reviewDayMainPhoto')[0].files[0]);
+  }
   xhrRequest.open( 'POST', 'http://localhost:9999/Root_Java/app/review/tempPhoto', true );
   xhrRequest.responseType = 'json';
   xhrRequest.send(data);
@@ -138,9 +185,6 @@ function reviewDataSave() {
     review[index][i].basicAddr = document.querySelectorAll('.basicAddr')[i].value;
     review[index][i].detailAddr = document.querySelectorAll('.detailAddr')[i].value;
     review[index][i].placeReview = review[index][i].editor.getData();
-    if (document.querySelectorAll('.reviewPlaceMainPhoto')[i].value != "") {
-      placeMainPhotoSave(index, i);
-    }
   }
   review[index].title = document.querySelectorAll('.title')[0].value;
   review[index].mainReview = document.querySelectorAll('.mainReview')[0].value;
@@ -168,21 +212,21 @@ function submit(status) { // JSON으로는 안되는거 같다. 그냥 배열로
   divPlaceForm += '<input class="placeReview" name="placeReviews" value="" type="text"/><br>';
   divPlaceForm += '<input class="reviewPlaceMainPhoto" name="reviewPlaceMainPhotos" type="text" value=""/><br>';
   
-  document.querySelectorAll('.topTitlebar')[0].innerHTML = "";
+  document.querySelectorAll('.dayReviewRightArea')[0].innerHTML = "";
   var divDayForm = '<input class="title" name="titles" type="text" value="" placeholder="제목" style="width:100%;"/><br>';
   divDayForm += '<input class="reviewDayMainPhoto" name="reviewDayMainPhotos" type="text" value="" /><br>';
   divDayForm += '<input class="mainReview" name="mainReviews" type="text" value="" placeholder="메인 후기"/><br>';
   divDayForm += '<input class="placeLength" type="text" name="placeLengths" value=""/><br>';
   
-  document.querySelectorAll('.mainPictureUploadDiv')[0].innerHTML = "";
+  document.querySelectorAll('.dayReviewLeftArea')[0].innerHTML = "";
   var divReviewForm = '<input class="status" type="text" name="status" value=""/><br>';
   
   setTimeout(() => {
   var count = 0;
   
-  document.querySelectorAll('.topTitlebar')[0].innerHTML += divReviewForm;
+  document.querySelectorAll('.dayReviewRightArea')[0].innerHTML += divReviewForm;
   for (var i = 0; i < review.length; i++) {
-    document.querySelectorAll('.topTitlebar')[0].innerHTML += divDayForm;
+    document.querySelectorAll('.dayReviewRightArea')[0].innerHTML += divDayForm;
     for (var j = 0; j < review[i].length; j++) {
       document.querySelectorAll('.reviewPlaceArea')[0].innerHTML += divPlaceForm;
     }
@@ -245,12 +289,14 @@ function removeFormByIndex(index) { // index를 받으면 해당 Form을 지운�
 }
 
 function removeForm(event){ // minus icon 클릭시 해당 Form 삭제
+  console.log("removeForm : 호출됐다");
   if (document.querySelectorAll('.reviewPlace').length != 1) {
     var index = $(event.target.parentNode.parentNode.parentNode).index();
     document.querySelectorAll('.showReviewPlaceNameArea')[0].removeChild(document.querySelectorAll('.showReviewPlaceNameArea')[0].childNodes[index]);
     document.querySelectorAll('.reviewPlaceArea')[0].removeChild(event.target.parentNode.parentNode.parentNode);
     reviewRemoveForm(index);
   }
+  getGeoLocation();
 }
 
 function reviewAddForm() {
@@ -434,9 +480,11 @@ function displayReviewDayByIndex(index) { // 현재 review Array에 맞는 Page�
     if (review[index].title != null) {
       document.querySelectorAll('.title')[0].value = review[index].title;
       if (typeof review[index].mainReview != "undefined") {
-      document.querySelectorAll('.mainReview')[0].value = review[index].mainReview;
+      document.querySelectorAll('.mainReview')[0].src = review[index].mainReview;
+      document.querySelectorAll('.displayReviewDayMainPhoto')[0].src = review[index].mainPhoto;
       }
       for (let i = 0; i < review[index].length; i++) {
+        document.querySelectorAll('.displayReviewPlaceMainPhoto')[i].src = review[index][i].mainPhoto;
         document.querySelectorAll('.placeName')[i].value = review[index][i].name;
         document.querySelectorAll('.basicAddr')[i].value =  review[index][i].basicAddr;
         document.querySelectorAll('.detailAddr')[i].value =  review[index][i].detailAddr;
@@ -498,10 +546,14 @@ function displayReviewDayByIndex(index) { // 현재 review Array에 맞는 Page�
     } else {
       document.querySelectorAll('.title')[0].value = "";
       document.querySelectorAll('.mainReview')[0].value = "";
+      document.querySelectorAll('.reviewDayMainPhoto')[0].value = "";
+      document.querySelectorAll('.displayReviewDayMainPhoto')[0].src = "";
       document.querySelectorAll('.placeName')[0].value = "";
       document.querySelectorAll('.basicAddr')[0].value =  "";
       document.querySelectorAll('.detailAddr')[0].value =  "";
       document.querySelectorAll('.placeReview')[0].value =  "";
+      document.querySelectorAll('.reviewPlaceMainPhoto')[0].value =  "";
+      document.querySelectorAll('.displayReviewPlaceMainPhoto')[0].src = "";
       newFormAddEditor();
     }
   }
@@ -706,6 +758,7 @@ function newFormAddEditor() { // New Form일때, addDate시 Editor 추가해준�
 
 
 function reviewDataInit(reviewData) { // DB로 전달받은 reviewData를 review에 저장하고 첫번째 page를 준비한다.
+  console.log(reviewData)
   if (reviewData.length != 0) { // reviewData가 있을 때, 
     review = reviewData;
     $('#button_calendar').calendar('set date', new Date(review[0].dayDate));
@@ -716,6 +769,7 @@ function reviewDataInit(reviewData) { // DB로 전달받은 reviewData를 review
 }
 
 function openDaumZipAddress(btn) { // 주소 API 연결
+  console.log("openDaumZipAddress : 나는 호출됐다!");
   new daum.Postcode({
     oncomplete:function(data) {
       $(btn.parentNode).find('.basicAddr').val(data.address);
