@@ -36,9 +36,11 @@
           </div>
 		    </div>
 		  </div>
-		  <div class="dayReviewArea"> <!-- 이제 여기 건드려야 함. -->
+		  <div class="dayReviewArea">
 		    <div class="dayReviewLeftArea"> 
 			    <div class="mainPhotoArea">
+			      <img src='${pageContext.servletContext.contextPath}/upload/review/'
+            height='360' width='540'>
 			      <input class="reviewDayMainPhoto" name="reviewDayMainPhotos" type="file" style="display:none"/>
 			    </div>
 		    </div>
@@ -47,7 +49,9 @@
           <h1> <input class="title" name="titles" type="text" placeholder="제목"></h1>
           </div>
           <div class="mainReviewArea">
-          <p> <input class="mainReview" name="mainReviews" type="text" placeholder="메인 후기"></p>
+          <p> 
+           <textarea class="mainReview" name="mainReviews" rows="20" cols="10" wrap="hard"  placeholder="메인 후기를 남겨주세요."></textarea>
+          </p>
           </div>
         </div>
 		  </div>
@@ -60,37 +64,43 @@
 		<div class="reviewPlaceNamebar">
 		  <div class="showReviewPlaceNameArea"><div class="showReviewPlaceName">1</div></div>
 		</div>
+		
+		
 		<div class="mainContentArea"> 
 		  <div class="reviewPlaceArea"><div class="reviewPlace">
-			    <div class="placeBasicbar">
-				    <div class="revicePlaceName">
-				      <input class="placeName" name="names" type="text" onchange="matchShowReivewPlaceName();" value="" placeholder="장소명">
-				    </div>
-				    <div class="placeRemove">
-				      <i id="placeRemoveMinusButtonIcon" class="big minus circle icon"></i>
-				    </div>
-				    <div class="reviewPlacePhotoArea">
-				      <i id="placeMainPhoto" class="bordered big camera icon"></i>
-				      <input class="reviewPlaceMainPhoto" name="reviewPlaceMainPhotos" type="file" style="display:none"/>
-				    </div>
-			    </div>
-				  <div class="placeAddrbar">
-				    <div class="reviceBasicAddr">
-		          <input class="basicAddr" name="basicAddrs" onChange="getGeoLocation();" type="text" value="">
-		          <div class="reviewAddrSearchIcon" onClick="openDaumZipAddress(this);">
-		            <i id="placeRemoveMinusButtonIcon" class="big search icon"></i>
-		          </div>
-		        </div>
-		        <div class="reviceDetailAddr">
-		          <input class="detailAddr" name="detailAddrs" type="text" value="">
-		        </div>
-		      </div>
-	        <div class="reviewPlaceReview">
-	           <div id="editor" class="ckEditor">
-	           <input class="placeReview" name="placeReviews" type="text" value="">
-	           </div>
+		    <div class="reviewPlaceLeftArea">
+		      <img src='${pageContext.servletContext.contextPath}/upload/review/'
+          height='360' width='540'>
+		      <input class="reviewPlaceMainPhoto" name="reviewPlaceMainPhotos" type="file" style="display:none"/>
+		    </div>
+		    <div class="reviewPlaceRightArea">
+		      <div class="reviewPlaceRemoveArea">
+		         <div class="placeRemoveMinusArea" style="color: #fff;">장소삭제</div>
+		      <!-- 
+		        <i id="placeRemoveMinusButtonIcon" class="big minus circle icon"></i>
+		         -->
+          </div>
+          <div class="reviewPlaceNameArea">
+            <input class="placeName" name="names" type="text" onchange="matchShowReivewPlaceName();" value="" placeholder="장소명">
+          </div>
+          <div class="reviewPlaceBasicAddrArea">
+            <div class="displayReviewPlaceBasicAddr">
+	            <input class="basicAddr" name="basicAddrs" onChange="getGeoLocation();" type="text" value="">
+	            <div class="reviewAddrSearchIcon" onClick="openDaumZipAddress(this);">
+	              <i id="placeAddrSearchButtonIcon" class="big search icon"></i>
+              </div>
+            </div>
+          </div>
+          <div class="reviewPlaceDetailAddrArea">
+            <input class="detailAddr" name="detailAddrs" type="text" value="">
+          </div>
+        </div> 
+        <div class="reviewPlaceReview">
+	        <div id="editor" class="ckEditor">
+	          <input class="placeReview" name="placeReviews" type="text" value="">
 	        </div>
-	      </div></div>
+	      </div>
+	    </div></div>
 		  <script>
       window.onload = function () {
         var reviewData = new Array();

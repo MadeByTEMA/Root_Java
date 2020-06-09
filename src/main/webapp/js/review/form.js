@@ -61,7 +61,7 @@ $('.mainPhotoArea').on("click", function() {
   $('.reviewDayMainPhoto').click();
 });
 
-$('.reviewPlaceArea').on("click", '.minus.circle.icon', function(e) {
+$('.reviewPlaceRemoveArea').on("click", '.placeRemoveMinusArea', function(e) {
     removeForm(e);
 });
 
@@ -126,7 +126,7 @@ function placeMainPhotoSave(index, i) {
   });
   const data = new FormData();
   data.append('upload', document.querySelectorAll('.reviewPlaceMainPhoto')[i].files[0]);
-  xhrRequest.open( 'POST', 'http://localhost:9999/Root_Project/app/review/tempPhoto', true );
+  xhrRequest.open( 'POST', 'http://localhost:9999/Root_Java/app/review/tempPhoto', true );
   xhrRequest.responseType = 'json';
   xhrRequest.send(data);
 }
@@ -151,7 +151,7 @@ function reviewDataSave() {
   });
   const data = new FormData();
   data.append('upload', document.querySelectorAll('.reviewDayMainPhoto')[0].files[0]);
-  xhr.open( 'POST', 'http://localhost:9999/Root_Project/app/review/tempPhoto', true );
+  xhr.open( 'POST', 'http://localhost:9999/Root_Java/app/review/tempPhoto', true );
   xhr.responseType = 'json';
   xhr.send(data);
   }
@@ -379,7 +379,7 @@ class MyUploadAdapter { // custom UploadAdapter 작성
   _initRequest() { 
     const xhr = this.xhr = new XMLHttpRequest(); 
     //여기서는 POST 요청과 json으로 응답을 받지만 어떤 포맷으로 하든 너의 선택이다. 
-    xhr.open( 'POST', 'http://localhost:9999/Root_Project/app/review/placePhoto', true ); 
+    xhr.open( 'POST', 'http://localhost:9999/Root_Java/app/review/placePhoto', true ); 
     xhr.responseType = 'json';
   }
   _initListeners(resolve, reject, file) {

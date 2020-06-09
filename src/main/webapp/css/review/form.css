@@ -4,7 +4,7 @@ div.reviewAddForm{
 
 div.topAreaDiv {
 	width:100%;
-  height:600px;
+  height:460px;
 }
 div.topStatusbar {
   margin: 0px 0px 20px 0px;
@@ -42,33 +42,34 @@ div.innerDate {
   float:right;
   line-height: 20px;
 }
+div.dayReviewArea {
+	width : 100%;
+	height: 400px;
+}
 
-
-div.mainPictureUploadDiv {
-	margin:10px 10px 10px 10px;
+div.dayReviewLeftArea {
+  width: 540px;
+  height: 360px;
+  margin: 20px 0px;
+  float:left;
+}
+div.dayReviewRightArea {
+  width: 540px;
+  height: 360px;
+  margin: 20px 0px;
   float:right;
 }
-
-div.topTitlebar {
-  margin: 20px 0px 20px 0px;
-  width:100%;
-  height:60px;
-  line-height:60px;
+div.titleArea {
+	width :100%;
+	height :40px;
+	margin-bottom: 20px;
+	
 }
-div.topMainReviewbar {
-  margin: 20px 0px 0px 0px;
-  width:100%;
-  height:440px;
-}
-
-
-
 div.courseNameDiv {
   margin: 20px 0px 20px 0px;
   width:100%;
   height:40px;
 }
-
 div.reviewPlaceNamebar {
   width:100%;
 }
@@ -85,52 +86,71 @@ div.mainContentArea {
   width:100%;
 }
 div.reviewPlace {
-  background-color: #E2EEF9;
+  background-color: #FFF6dd;
   padding: 10px 0px 10px 0px;
 }
-
-div.placeBasicbar {
-  height: 60px;
-}
-div.revicePlaceName {
-  padding: 10px 25px 10px 25px;
-  width: 50%;
-  height: 60px;
+div.reviewPlaceLeftArea {
+	margin: 10px;
   float:left;
+  width: 540px;
+  height: 360px;
 }
-div.reviewPlacePhotoArea {
-  padding: 10px 25px 10px 25px;
-  width: 25%;
-  height: 60px;
+div.reviewPlaceRightArea {
+	margin: 10px;
   float:right;
+  width: 520px;
+  height: 360px;
+  padding-top: 40px;
+  padding-bottom: 80px;
 }
-div.placeRemove {
-  padding: 10px 25px 10px 25px;
-  width: 25%;
-  height: 60px;
-  float:left;
+
+
+div.reviewPlaceRemoveArea {
+  height: 40px;
+  width: 100%;
 }
-div.placeAddrbar {
-  height: 60px;
+div.placeRemoveMinusArea {
+	float: right;
+	font-size: 14px;
+  background: #eb5d1e;
+  border-radius: 50px;
+  margin: 5px;
+  padding: 5px 10px;
+  width: 80px;
+  text-align: center;
 }
-div.reviceBasicAddr {
-  padding: 10px 25px 10px 25px;
-  width: 50%;
-  height: 60px;
-  float:left;
+div.reviewPlaceNameArea {
+  height: 40px;
+  width: 100%;
+  margin-bottom: 40px;
+  border: 1px solid rgba(34,36,38,.15);
+  border-radius: .28571429rem;
+  background: white;
 }
+div.reviewPlaceBasicAddrArea {
+  height: 40px;
+  width: 100%;
+  margin-bottom: 40px;
+  border: 1px solid rgba(34,36,38,.15);
+  border-radius: .28571429rem;
+  background: white;
+}
+div.reviewPlaceDetailAddrArea {
+  height: 40px;
+  width: 100%;
+  border: 1px solid rgba(34,36,38,.15);
+  border-radius: .28571429rem;
+  background: white;
+}
+
+
+
 div.reviewAddrSearchIcon {
 	float:right;
 }
-div.reviceDetailAddr {
-	padding: 10px 25px 10px 25px;
-  width: 50%;
-  height: 60px;
-  float:right;
-}
 
 .ck.ck-reset.ck-editor.ck-rounded-corners {
-	padding: 10px 25px 10px 25px;
+	padding: 10px;
   width: 100%;
 }
 
@@ -141,7 +161,6 @@ div.reviceDetailAddr {
 div.reviewPlacePlusArea {
 	margin: 20px 0px 20px 0px;
   width: 100%;
-  height: 600x;
 }
 
 div.datePlus {
@@ -210,9 +229,9 @@ div.footerButton {
 	float:right;
 }
 
-#placeRemoveMinusButtonIcon {
-	padding-left: 0px !important;
-	float:left;
+#placeAddrSearchButtonIcon {
+	line-height: 40px;
+	margin-right: 10px;
 }
 
 .ui.button {
@@ -222,35 +241,44 @@ div.footerButton {
 }
 
 .title {
-  padding: 10px 10px 10px 10px;
-  height: 60px;
+  padding: 5px 10px;
+  height: 40px;
   width: 100%;
+  font-size: 16px;
+  border: 1px solid rgba(34,36,38,.15);
+  border-radius: .28571429rem;
 }
 
 .mainReview {
-  padding: 10px 10px 10px 10px;
-  height:440px;
-  text-align:center;
-  line-height:440px;
+  padding: 10px;
+  height: 300px;
   width:100%;
+  border: 1px solid rgba(34,36,38,.15);
+  border-radius: .28571429rem;
 }
 
 .placeName {
-  padding: 0 10px 0 10px;
+  padding: 0 10px;
   height: 40px;
   width: 100%;
+  border: 0;
+  background: 0;
 }
 
 .basicAddr {
-  padding: 0 10px 0 10px;
+  padding: 0 10px;
   height: 40px;
-  width: calc(100% - 35.53px);
+  width: calc(100% - 56.53px);
+  border: 0;
+  background: 0;
 }
 
 .detailAddr {
-  padding: 0 10px 0 10px;
+  padding: 0 10px;
   height: 40px;
   width: 100%;
+  border: 0;
+  background: 0;
 }
 
 .placeReview {
