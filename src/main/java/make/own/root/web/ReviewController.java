@@ -85,7 +85,7 @@ public class ReviewController {
       String[] detailAddrs, //
       String[] placeReviews, //
       String[] reviewPlaceMainPhotos //
-      ) throws Exception {
+  ) throws Exception {
     User user = (User) session.getAttribute("loginUser");
     if (user == null) {
       throw new Exception("유저 번호가 유효하지 않습니다.");
@@ -114,7 +114,8 @@ public class ReviewController {
         Date newDayDate = dayDate;
         newDayDate.setDate((newDayDate.getDate() + dayIndex));
         List<ReviewDay> oldDays = oldReview.getReviewDay();
-        ReviewDay reviewday = new ReviewDay(titles[dayIndex], newDayDate, mainReviews[dayIndex], Integer.parseInt(status));
+        ReviewDay reviewday = new ReviewDay(titles[dayIndex], newDayDate, mainReviews[dayIndex],
+            Integer.parseInt(status));
         if (dayIndex < oldDays.size() && oldDays.get(dayIndex) != null) { // 만약 Update할 ReviewDayNo가 존재한다면, 전달
           reviewday.setNo(oldDays.get(dayIndex).getNo());
         }
@@ -127,7 +128,8 @@ public class ReviewController {
         }
         List<ReviewPlace> reviewplaces = new LinkedList<>();
         for (int i = 0; i < Integer.parseInt(placeLengths[dayIndex]); i++) {
-          ReviewPlace reviewplace = new ReviewPlace(names[i + count], basicAddrs[i + count], placeReviews[i + count], Integer.parseInt(status));
+          ReviewPlace reviewplace = new ReviewPlace(names[i + count], basicAddrs[i + count], placeReviews[i + count],
+              Integer.parseInt(status));
           if (detailAddrs[i + count] != null) {
             reviewplace.setDetailAddr(detailAddrs[i + count]);
           }
@@ -175,7 +177,8 @@ public class ReviewController {
       for (int dayIndex = 0; dayIndex < titles.length; dayIndex++) { // dayIndex에 맞게 for문 구분
         Date newDayDate = dayDate;
         newDayDate.setDate((newDayDate.getDate() + dayIndex));
-        ReviewDay reviewday = new ReviewDay(titles[dayIndex], newDayDate, mainReviews[dayIndex], Integer.parseInt(status));
+        ReviewDay reviewday = new ReviewDay(titles[dayIndex], newDayDate, mainReviews[dayIndex],
+            Integer.parseInt(status));
         if (reviewDayMainPhotos[dayIndex].indexOf("temp") >= 0) {
           String filePath = servletContext.getRealPath("/upload/review");
           String tempPath = servletContext.getRealPath("/upload/review/temp");
@@ -185,7 +188,8 @@ public class ReviewController {
         }
         List<ReviewPlace> reviewplaces = new LinkedList<>();
         for (int i = 0; i < Integer.parseInt(placeLengths[dayIndex]); i++) { // dayIndex에 들어갈 PlaceList 생성
-          ReviewPlace reviewplace = new ReviewPlace(names[i + count], basicAddrs[i + count], placeReviews[i + count], Integer.parseInt(status));
+          ReviewPlace reviewplace = new ReviewPlace(names[i + count], basicAddrs[i + count], placeReviews[i + count],
+              Integer.parseInt(status));
           if (detailAddrs[i + count] != null) {
             reviewplace.setDetailAddr(detailAddrs[i + count]);
           }
@@ -228,9 +232,9 @@ public class ReviewController {
       if (!Folder.exists()) {
         System.out.println("폴더 없음 호출 됨");
         try {
-          Folder.mkdir(); //폴더 생성합니다.
+          Folder.mkdir(); // 폴더 생성합니다.
           System.out.println("폴더가 생성되었습니다.");
-        } catch(Exception e){
+        } catch (Exception e) {
           e.getStackTrace();
         }
       }
@@ -240,8 +244,7 @@ public class ReviewController {
       System.out.println(newFile.getName());
 
       ObjectMapper objectMapper = new ObjectMapper();
-      response.getWriter().write(
-          objectMapper.writeValueAsString("temp" + newFile.getName()));
+      response.getWriter().write(objectMapper.writeValueAsString("temp" + newFile.getName()));
     }
   }
 
@@ -255,9 +258,9 @@ public class ReviewController {
       if (!Folder.exists()) {
         System.out.println("폴더 없음 호출 됨");
         try {
-          Folder.mkdir(); //폴더 생성합니다.
+          Folder.mkdir(); // 폴더 생성합니다.
           System.out.println("폴더가 생성되었습니다.");
-        } catch(Exception e){
+        } catch (Exception e) {
           e.getStackTrace();
         }
       }
@@ -266,14 +269,9 @@ public class ReviewController {
       upload.transferTo(newFile);
       ObjectMapper objectMapper = new ObjectMapper();
       response.getWriter().write(
-          objectMapper.writeValueAsString("http://localhost:9999/Root_Project/upload/review/place/" + newFile.getName()));
+          objectMapper.writeValueAsString("http://localhost:9999/Root_Java/upload/review/place/" + newFile.getName()));
     }
   }
-
-  /*
-   * @GetMapping("detail") public void detail(int no, Model model) throws
-   * Exception { model.addAttribute("review", reviewService.get(no)); }
-   */
 
   @GetMapping("delete")
   public String delete(int no, int userNo) throws Exception {
