@@ -58,4 +58,11 @@ public class ScrapDayServiceImpl implements ScrapDayService {
     return scrapDayDao.delete(reviewDayNo);
   }
 
+  @Override
+  public List<ScrapDay> find(int userNo, int reviewDayNo) throws Exception {
+    HashMap<String, Object> params = new HashMap<>();
+    params.put("userNo", userNo);
+    params.put("reviewDayNo", reviewDayNo);
+    return scrapDayDao.findScrapDay(params);
+  }
 }

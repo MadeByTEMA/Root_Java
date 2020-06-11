@@ -10,4 +10,6 @@ public interface ScrapDayService {
   List<ScrapDay> list(int userNo) throws Exception;
 
   int delete(int reviewDayNo) throws Exception;
+
+  List<ScrapDay> find(int userNo, int reviewDayNo) throws Exception;
 }
