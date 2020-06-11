@@ -60,7 +60,7 @@
 		<div class='courseNameDiv'>
 		  <h1>Course</h1>
 		</div>
-		<div id="map" style="width:100%; height:350px;"></div>
+		<div id="map" style="width:100%; height:600px;"></div>
 		<div class="reviewPlaceNamebar">
 		  <div class="showReviewPlaceNameArea"><div class="showReviewPlaceName">1</div></div>
 		</div>
@@ -130,8 +130,10 @@
 		    </div>
 		  </div>
 			<div class="buttonArea">
-			  <button type="button" onclick="submitForm(2)">저장하기</button>
-			  <button type="button" onclick="submitForm(1)">게시하기</button>
+			  <div class="buttonRightArea">
+				  <button class="submitBottonType" type="button" onclick="submitForm(2)">저장하기</button>
+				  <button class="submitBottonType" type="button" onclick="submitForm(1)">게시하기</button>
+				</div>
 			</div>
 		</div>
 	</div>
