@@ -3,119 +3,94 @@
     trimDirectiveWhitespaces="true"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<style>
-div.Search_total {
-  width :1140px;
-}
 
-div.search_repeat {
-  overflow : visible;
-  width : 900px;
-  height : 180px;
-  border: 1px solid gray;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  
-}
-
-div.day_layoutCon {
-  width : 1140px;
-  height : 600px;
-  margin-bottom: 50px;
-}
-
-div.repeat_control {
-  float: left;
-  position : relative;
-  width : 650px;
-}
-
-div.search_repeat_place_photo {
-  width : 200px;
-  height : 150px;
-  float: left;
-  margin-top: 10px;
-}
-
-.search_repeat_place_title{
-  float: left;
-}
-
-.search_repeat_place_review {
-  float: left;
-}
-
-div.search_repeat_place {
-  margin-top: 20px;
-}
-
-div.place_search {
-  display: grid;
-  height: 200px;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 15px;
-  grid-template-rows: 250px 250px;
-}
-
-div.search_place_content_repeat {
-  width : 250px;
-  margin-left: 10px;
-}
-
-</style>
-<h1>검색 리스트</h1>
-<div class="Search_total">
-  <div class="day_layoutCon" >
-    <h3>#데이</h3>
-    <div class="day_search" style="margin-left: 100px;">
-      <c:forEach items="${searchDayList}" var="searchDay">
-        <div class="search_repeat">
-            <div class="search_repeat_place_photo">
-              <a href='searchDayDetail?no=${searchDay.no}'>
-              <img class="img-thumbnail" src="${pageContext.servletContext.contextPath}/img/search/testimg.jpg" alt="${searchDay.mainPhoto}" 
-              style="width:170px; height: 100px; margin:30px 30px 10px 30px;">
+<div class="searchTotal">
+  <div class="searchArea">
+    <div id="custom-search-input">
+      <div class="input-group col-md-12">
+        <form action='http://localhost:9999/Root_Java/app/review/search' method='get'>
+          <input type="text" name='keyword' class="search-query form-control" placeholder="Search" style="width: 926px;height:35px;float:left"/>
+              <button class="btn btn-danger">
+                   <i class="search icon"></i>
+              </button>
+          </form>
+        </div>
+     </div>
+  </div>    
+  <div class="searchSelector">
+    <h2>#Day</h2>
+  </div>
+  <div class="daySearchArea" >
+      <c:forEach items="${searchDayList}" var="searchDay" varStatus="status">
+      <c:if test="${status.getIndex() < 5}">
+        <div class="daySearchElement">
+            <div class="dayMainPhotoArea">
+              <a href='../review/searchDetail?no=${searchDay.no}'>
+              <img src='${pageContext.servletContext.contextPath}/upload/review/${searchDay.mainPhoto}'  
+                   height='300' width='400'>
               </a>
             </div>
-            <div class="repeat_control">
-              <div class="search_repeat_place">
-                <ul class="list-group list-group-flush">
-                  <li class="list-group-item"> <a href='searchDayDetail?no=${searchDay.no}'> <strong>${searchDay.title} </strong></a> <br></li>
-                  <li class="list-group-item"> ${searchDay.mainReview} <br></li>
-                  <li class="list-group-item">장소 : <c:forEach items="${searchDay.reviewPlace}" var="searchPlace">
-                   <${searchPlace.name}> &nbsp; 
-                </c:forEach></li>
-                </ul>
+            <div class="dayContentArea">
+              <div class="dayContentTopArea">
+	              <a href='../review/searchDetail?no=${searchDay.no}' style="color: #212529; font-size: 20px;">${searchDay.title}</a>
+	            </div>
+		          <div class="dayContentMainReview" style="word-break:break-all">
+	            <a href='../review/searchDetail?no=${searchDay.no}' style="color: #212529; font-size: 14px;">
+	            ${searchDay.mainReview}"
+	            </a>
+	          </div>
+	          <div class="dayContentInPlaceNameArea">
+	            <c:forEach items="${searchDay.reviewPlace}" var="searchPlace" varStatus="status">
+	              <c:if test="${status.getIndex() < 6}">
+	                <div class="dayContentInPlaceName">
+	                  ${searchPlace.name}
+	                </div>
+	              </c:if>
+	            </c:forEach>
               </div> 
             </div>
-        </div>
+          </div>
+        </c:if>
+        <c:if test="${status.getIndex() == 5}">
+	        <div class="moreViewArea">
+		        <div class="moreView">
+		          더보기
+	          </div>
+	        </div>
+        </c:if>
       </c:forEach>
-    </div>  
   </div>
   
-  <div class="place_layoutCon">
-    <h3>#장소</h3>
-    <div class="place_search">
-       <c:forEach items="${searchPlaceList}" var="searchPlace">
-         <div class="shadow-lg p-3 mb-5 bg-white rounded" style="height: 250px;">
-           <div class="search_place_photo_repeat" style="text-align: center;">
-           <a href='searchPlaceDetail?no=${searchPlace.no}'><img class="img-thumbnail" src="${pageContext.servletContext.contextPath}/img/search/testimg.jpg" alt="${searchPlace.mainPhoto}"
-                style="width:200px; height: 130px; margin:30px 30px 30px 30px;">
-           </a><br>
-           </div>
-           <div class="search_place_content_repeat" >
-             <div class="place_main_name" style="width :320px; ">
-              <span><strong>${searchPlace.name}</strong></span>
-             </div>
-             <div style="border-bottom: 1px solid grey; width :320px;"></div>
-             <div class="place_main_review">       
-                    리뷰 : ${searchPlace.placeReview.substring(0,15)} ... <br>
-             </div>
-           </div>
+  <div class="searchSelector">
+    <h2>#Place</h2>
+  </div>
+  <div class="placeSearchArea">
+    <c:forEach items="${searchPlaceList}" var="searchPlace" varStatus="status">
+      <c:if test="${status.getIndex() < 5}">
+	      <div class="placeSearchElement">
+	        <div class="placeMainPhotoArea">
+		        <a href='searchDetail?no=${searchPlace.day.no}'>
+		        <img src='${pageContext.servletContext.contextPath}/upload/review/${searchPlace.mainPhoto}'
+		        height='240' width='300'>
+		        </a>
+	        </div>
+		        <div class="placeNameArea">
+	            <div class="placeName">
+	              ${searchPlace.name}
+	            </div>
+	          </div>
+	        </div>
+        </c:if>
+        <c:if test="${status.getIndex() == 5}">
+          <div class="moreViewArea">
+            <div class="moreView">
+              더보기
+            </div>
           </div>
-        </c:forEach>
-     </div>
-   </div>
+        </c:if>
+    </c:forEach>
+  </div>
 </div>
-
+<script type="text/JavaScript" src="../../js/review/search.js">  </script>
 
 
