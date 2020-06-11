@@ -23,7 +23,7 @@
   
   
   
-  <select id="insert" parameterType="Map">
+  <insert id="insert" parameterType="Map">
     insert into place_scraps(
       user_no,
       review_place_no
@@ -31,7 +31,7 @@
       #{userNo},
       #{reviewPlaceNo}
     )
-  </select>
+  </insert>
   
   <select id="findAll" resultMap="ScrapPlaceMap" parameterType="int">
       select 
@@ -55,5 +55,18 @@
     delete from place_scraps
     where review_place_no=#{no}
   </delete>
+  
+  <select id="findScrapPlace" 
+    resultMap="ScrapPlaceMap" 
+    parameterType="map">
+    select
+      user_no,
+      review_place_no
+    from place_scraps
+    where 
+      user_no=#{userNo}
+      and review_place_no=#{reviewPlaceNo}
+  </select>
+  
   
 </mapper>
