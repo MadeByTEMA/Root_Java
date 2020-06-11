@@ -27,6 +27,7 @@ div.reviewForm {
   border: 1px solid rgba(34,36,38,.15);
   padding: 10px;
   border-radius: .28571429rem;
+  background-size:cover;
 }
 div.title {
 	height: 20px;
@@ -35,10 +36,12 @@ div.title {
   overflow: hidden;
   min-width: 100%;
   margin: 50px 0px 50px;
+  display:none;
 }
 div.reviewScrapArea {
   height: 20px;
   margin: 50px 0px 50px;
+  display:none;
 }
 div.reviewDayScrapArea {
   height: 20px;
@@ -70,6 +73,7 @@ div.placeScrap {
 div.reviewStatusButtonArea {
   height: 40px;
   margin: 50px 0px 50px;
+  display:none;
 }
 div.reviewStatusButtonLeftArea {
   height: 40px;
@@ -84,5 +88,5 @@ div.reviewStatusButtonRightArea {
 
 h2 {
   color: #a08f86;
-  font-size: 32px;
+  font-size: 24px;
 }
