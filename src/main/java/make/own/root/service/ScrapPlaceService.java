@@ -10,4 +10,6 @@ public interface ScrapPlaceService {
   List<ScrapPlace> list(int userNo) throws Exception;
 
   int delete(int reviewPlaceNo) throws Exception;
+
+  List<ScrapPlace> find(int userNo, int reviewPlaceNo) throws Exception;
 }

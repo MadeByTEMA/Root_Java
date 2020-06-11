@@ -45,4 +45,11 @@ public class ScrapPlaceServiceImpl implements ScrapPlaceService {
     return scrapPlaceDao.delete(reviewPlaceNo);
   }
 
+  @Override
+  public List<ScrapPlace> find(int userNo, int reviewPlaceNo) throws Exception {
+    HashMap<String, Object> params = new HashMap<>();
+    params.put("userNo", userNo);
+    params.put("reviewPlaceNo", reviewPlaceNo);
+    return scrapPlaceDao.findScrapPlace(params);
+  }
 }
