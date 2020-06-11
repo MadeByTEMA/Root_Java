@@ -15,15 +15,19 @@
     <c:forEach items="${scrapDays}" var="scrapDay">
       <div class="dayScrapElement">
         <div class="dayMainPhotoArea">
+          <a href='../review/searchDayDetail?no=${scrapDay.review.no}'>
           <img src='${pageContext.servletContext.contextPath}/upload/review/${scrapDay.reviewDay.mainPhoto}'
                    height='300' width='400'>
+          </a>
         </div>
         <div class="dayContentArea">
           <div class="dayContentTopArea">
               <a href='../review/searchDayDetail?no=${scrapDay.review.no}' style="color: #212529; font-size: 20px;">${scrapDay.reviewDay.title}</a>
           </div>
           <div class="dayContentMainReview" style="word-break:break-all">
+            <a href='../review/searchDayDetail?no=${scrapDay.review.no}' style="color: #212529; font-size: 14px;">
             ${scrapDay.reviewDay.mainReview}"
+            </a>
           </div>
           <div class="dayContentInPlaceNameArea">
  	          <c:forEach items="${scrapDay.reviewDay.reviewPlace}" var="scrapPlace" varStatus="status">
@@ -58,3 +62,4 @@
    </div>
 </div>
 <script type="text/JavaScript" src="../../js/scrap/list.js">  </script>
+
