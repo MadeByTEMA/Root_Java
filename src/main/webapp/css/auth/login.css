@@ -1,0 +1,18 @@
+div.titleArea {
+  padding-top :30px;
+  margin-bottom: 30px;
+  height:80px;
+}
+div.loginUserArea {
+	margin:20px;
+}
+
+h2 {
+  color: #a08f86;
+  font-size: 32px;
+}
+
+p {
+  color: #a08f86;
+  font-size: 16px;
+}
