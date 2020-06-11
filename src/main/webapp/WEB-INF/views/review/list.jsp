@@ -13,17 +13,18 @@
       </div>
     </div>
     <c:forEach items="${list}" var="review">
-    <c:forEach items="${review.reviewDay}" var="reviewday">
-    <div class="reviewForm" onclick="location.href='form?no=${review.no}'" data-value="${reviewday.mainPhoto}">
+    <c:forEach items="${review.reviewDay}" var="reviewday" varStatus="status">
+    <c:if test="${status.first}"> 
+    <div class="reviewForm" onclick="location.href='form?no=${review.no}'" style="background-image:url('http://localhost:9999/Root_Java/upload/review/${reviewday.mainPhoto}');">
       <div class="title">${reviewday.title}</div>
       <div class="reviewScrapArea">
         <div class="reviewDayScrapArea">
           <div class="displayScrapCount">DayScrap : </div>
-	        <div class="dayScrap"></div>
+	        <div class="dayScrap">57</div>
         </div>
         <div class="reviewPlaceScrapArea">
           <div class="displayScrapCount">PlaceScrap : </div>
-          <div class="placeScrap"></div>
+          <div class="placeScrap">113</div>
         </div>
       </div>
       <div class="reviewStatusButtonArea">
@@ -31,36 +32,8 @@
         <div class="reviewStatusButtonRightArea"><button class="ui inverted secondary button" style="width: 100px;margin: 0px;">숨기기</button></div>
       </div>
     </div>
+    </c:if>
     </c:forEach>
     </c:forEach>
   </div>
 <script type="text/JavaScript" src="../../js/review/list.js">  </script>
-
-
-
-<!--
-<a href='form?no=newForm'>새 후기 등록</a><br>
-  <table class="table table-hover" >
-  <thead>
-  <tr align="center">
-    <th>제목</th>
-    <th>여행예정일</th>
-    <th>코스작성일</th>
-    <th>삭제</th>
-  </tr>
-    </thead>
-  <tbody>
-  
-    <c:forEach items="${review.reviewDay}" var="reviewday">
-      <tr align="center">
-        <td><a href='form?no=${review.no}'></a></td> 
-        <td>${reviewday.dayDate}</td> 
-        <td>${review.createdDate}</td> 
-        <td><a href='delete?no=${course.no}'>삭제</a></td>
-      </tr>
-   
-  </c:forEach>
-    </tbody>
-</table>
--->
-
