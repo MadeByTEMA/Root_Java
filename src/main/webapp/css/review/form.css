@@ -172,7 +172,24 @@ div.reviewPlacePlusArea {
 	margin: 20px 0px 20px 0px;
   width: 100%;
 }
-
+div.buttonArea {
+  height: 40px;
+}
+div.buttonRightArea {
+  height: 40px;
+  float: right;
+}
+.submitBottonType {
+   float: right;
+   font-size: 14px;
+   background: #eb5d1e;
+   border-radius: 50px;
+   margin: 5px;
+   padding: 5px 10px;
+   width: 80px;
+   text-align: center;
+   border-color: #eb5d1e;
+}
 div.datePlus {
   padding:11px 16px;
 }
