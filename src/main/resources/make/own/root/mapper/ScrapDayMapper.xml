@@ -61,6 +61,18 @@
     where review_day_no=#{no}
   </delete>
   
+  <select id="findScrapDay" 
+    resultMap="ScrapDayMap" 
+    parameterType="map">
+    select
+      user_no,
+      review_day_no
+    from day_scraps
+    where 
+      user_no=#{userNo}
+      and review_day_no=#{reviewDayNo}
+  </select>
+  
 </mapper>
 
 
