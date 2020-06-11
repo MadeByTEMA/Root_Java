@@ -10,8 +10,8 @@ public class Point implements Serializable {
   int no; // point_no
   int userNo; // user_no
   int traderNo; // trader_no // null 가능
-  int pointType; // point_type / 입출금 분류
-  int content; // content / 입출금 내용
+  int pointType; // point_type / 입출금 분류 // 0 출금 1 입금
+  int content; // content / 입출금 내용 // 0 실제입출금 1 DayScrap 2 PlaceScrap
   int price; // price
   Date createdDate; // create_date
   User user;
