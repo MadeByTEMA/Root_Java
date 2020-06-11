@@ -6,6 +6,8 @@
   <header id="header" class="fixed-top">
     <div class="headerOnLoginBar">
       <div class="loginBarInFrame">
+        <div class="searchOnloginBar">
+        </div>
         <div class="userStatusbar">
         <c:if test="${not empty loginUser}">
           <div class="displayUserInfo">
@@ -36,7 +38,7 @@
       <nav class="nav-menu d-none d-lg-block">
         <ul>
           <li class="active"><a href="http://localhost:9999/Root_Java">Home</a></li>
-          <li><a href="../review/search">검색하기</a></li>
+          <li><a href="../review/search?keyword=">검색하기</a></li>
           <li><a href="../course/list">코스짜기</a></li>
           <li><a href="../scrap/list">스크랩</a></li>
           <li><a href="../review/list">후기쓰기</a></li>
