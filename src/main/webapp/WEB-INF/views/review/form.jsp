@@ -131,8 +131,8 @@
 		  </div>
 			<div class="buttonArea">
 			  <div class="buttonRightArea">
-				  <button class="submitBottonType" type="button" onclick="submitForm(2)">저장하기</button>
-				  <button class="submitBottonType" type="button" onclick="submitForm(1)">게시하기</button>
+				  <button class="submitButtonType" type="button" onclick="submitForm(2)">저장하기</button>
+				  <button class="submitButtonType" type="button" onclick="submitForm(1)">게시하기</button>
 				</div>
 			</div>
 		</div>
