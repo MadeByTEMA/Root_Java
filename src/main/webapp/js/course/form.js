@@ -30,6 +30,17 @@ var distanceArray = new Array();
   var dots = {}; // 선이 그려지고 있을때 클릭할 때마다 클릭 지점과 거리를 표시하는 커스텀 오버레이 배열입니다.
 }
 
+{
+  var placeNameDragDropData = new Object();
+  var courseDateDragDropData = null;
+  }
+
+$('.ui.sidebar').sidebar('setting', 'transition', 'overlay');
+
+function sidebarToggle() {
+ $('.ui.sidebar').sidebar('toggle');
+}
+
 $('.ui.dropdown').dropdown({
   action:'nothing'
 });
@@ -37,6 +48,45 @@ $('.ui.dropdown').dropdown({
 $('.minus.icon').css('margin', '0px');
 $('.minus.icon').css('padding-left', 'calc(100% - 144px)');
 $('.item').attr('style', 'padding:11px 5px 11px 14px !important');
+
+$('#placeAddPlusButtonIcon').on("click", function() {
+  addFormByEvent();
+});
+
+$('.ui.accordion').accordion();
+
+$('.trigger .accordion')
+  .accordion({
+    selector: {
+      trigger: '.title .icon'
+    }
+  });
+  
+var starvalue = 0;
+
+  $('.ui.rating')
+  .rating({
+    maxRating: 1,
+    onRate: function(value) {
+      starvalue = value;
+    }
+  })
+;
+  
+  $('.clearing .rating')
+  .rating('setting', 'clearable', true)
+;
+  
+  $(document).ready(function() {
+    $('.ui.rating').on("click", function() {
+      scrapDataOnCourse(this);
+    });
+  });
+  
+  $('.plus').on("click", '.plus.icon', function() {
+    addDate();
+  });
+  
 
 $('#button_calendar')
 .calendar({
@@ -67,72 +117,8 @@ $('#button_calendar')
   }
 });
 
-
-
-
-
-
-
-
-
-
-
-
-{
-var placeNameDragDropData = new Object();
-var courseDateDragDropData = null;
-}
-
-$('.ui.sidebar').sidebar('setting', 'transition', 'overlay');
-
-function sidebarToggle() {
- $('.ui.sidebar').sidebar('toggle');
-}
-
-
-
-
-
-$('.ui.accordion').accordion();
-
-$('.trigger .accordion')
-  .accordion({
-    selector: {
-      trigger: '.title .icon'
-    }
-  });
-  
-var heartIconValue = 0;
-
-  $('.ui.rating')
-  .rating({
-    maxRating: 1,
-    onRate: function(value) {
-      heartIconValue = value;
-    }
-  })
-;
-  
-  $('.clearing .rating')
-  .rating('setting', 'clearable', true)
-;
-  
-  $(document).ready(function() {
-    $('.ui.rating').on("click", function() {
-      scrapDataOnCourse(this);
-    });
-  });
-  
-  $(document).ready(function() {
-    $('.plus.icon').on("click", function() {
-      addDate();
-    });
-  });
-  
-
-
 function submitForm() {
-  $('.ui.modal').modal({
+  $('#submitModal').modal({
     onApprove: function (e) {
       if (e.hasClass('ok')) {
         submit();
@@ -141,58 +127,76 @@ function submitForm() {
   }).modal('show')
 }
 
-function submit() {
-  courseDataSave();
-  getNewForm();
+function courseDataSave() {
+  console.log(course);
+  var index = (document.querySelectorAll('.dayCount')[0].innerHTML).substring(3, 5) - 1;
+  console.log("index: " + index);
+  for (var i = 0; i < course[index].length; i++) {
+    console.log("i번째: " + i);
+    console.log(document.querySelectorAll('.placeName')[i].value);
+    console.log(document.querySelectorAll('.basicAddr')[i].value);
+    console.log(document.querySelectorAll('.detailAddr')[i].value);
+    console.log(document.querySelectorAll('.etc')[i].value);
+    
+    course[index][i].placeName = document.querySelectorAll('.placeName')[i].value;
+    course[index][i].basicAddr = document.querySelectorAll('.basicAddr')[i].value;
+    course[index][i].detailAddr = document.querySelectorAll('.detailAddr')[i].value;
+    course[index][i].etc = document.querySelectorAll('.etc')[i].value;
+  }
+  console.log(document.querySelectorAll('.placeTitle')[0].value);
+  course[index].title = document.querySelectorAll('.placeTitle')[0].value;
   
+  console.log(course);
+}
+
+
+function submit() { // JSON으로는 안되는거 같다. 그냥 배열로 받자.
+  courseDataSave();
   
   document.getElementById('placeForm').innerHTML = "";
-  var divForm = '<input class="placeName"  onchange="inputPlaceName();" name="placeNames" type="text" value=""><br>';
-  divForm += '<input type="text" class="basicAddr" name="basicAddrs" value="" style="width:240px;" readonly/>';
-  divForm += '<input type="text" class="detailAddr" name="detailAddrs" value="" style="width:240px;"/> <br/>';
-  divForm += '<input class="etc" name="etcs" value="" type="text"><br>'
-  
+  var divPlaceForm = '<input class="placeName"  onchange="inputPlaceName();" name="placeNames" type="text" value=""><br>';
+  divPlaceForm += '<input type="text" class="basicAddr" name="basicAddrs" value="" />';
+  divPlaceForm += '<input type="text" class="detailAddr" name="detailAddrs" value="" /> <br/>';
+  divPlaceForm += '<input class="etc" name="etcs" value="" type="text"><br>'  
+    
   document.querySelectorAll('.titlebar')[0].innerHTML = "";
+  var divDayForm = '<input class="placeTitle" name="titles" type="text" value="" placeholder="제목"/><br>';
+  divDayForm += '<input class="dayLength" type="text" name="dayLengths" value=""/><br>';
   
-  var divTitle = '<input name="title" type="text" value="" placeholder="제목" style="width:100%;"/><br>';
-  divTitle += '<input class="dayNo" name="dayNos" type="dayNo" value=""/><br>' 
-  divTitle += '<input class="dayLength" type="text" name="dayLengths" value=""/><br>';
-  
-  
+  setTimeout(() => {
   var count = 0;
   
   for (var i = 0; i < course.length; i++) {
-    document.querySelectorAll('.titlebar')[0].innerHTML += divTitle;
+    document.querySelectorAll('.titlebar')[0].innerHTML += divDayForm;
     for (var j = 0; j < course[i].length; j++) {
-      document.getElementById('placeForm').innerHTML += divForm;
+      document.querySelectorAll('.coursePlaceArea')[0].innerHTML += divPlaceForm;
     }
   }
+  
   
   for (var i = 0; i < course.length; i++) {
     if (i == 0) {
       document.getElementsByName('dayDate')[0].value = course[0].dayDate;
     }
-    document.getElementsByName('title')[i].value = course[i].title;
-    if (typeof course[i].no == "undefined") {
-      document.querySelectorAll('.dayNo')[i].value = course[i].no;
-    }
+    document.querySelectorAll('.placeTitle')[i].value = course[i].title;
     document.querySelectorAll('.dayLength')[i].value = course[i].length;
+    
     for (var j = 0; j < course[i].length; j++) {
-      document.getElementsByName('placeNames')[count].value = course[i][j].placeName;
+      document.querySelectorAll('.placeName')[count].value = course[i][j].placeName;
       document.querySelectorAll('.basicAddr')[count].value = course[i][j].basicAddr;
       document.querySelectorAll('.detailAddr')[count].value = course[i][j].detailAddr;
       document.querySelectorAll('.etc')[count].value = course[i][j].etc;
       count++;
     }
   }
-  
+  }, 1000);
+  setTimeout(() => {
   for (var i = 0; i < course.length; i++) {
     if (i == 0) {
       console.log(i + "시작일 : " + course[i].dayDate);
     }
     console.log(i + "번째 title : " + course[i].title);
-    console.log(i + "번째 dayNo : " + course[i].no);
-    console.log(i + "번째 dayLength : " + course[i].length);
+    console.log(i + "번째 placeLength : " + course[i].length);
 
     for (var j = 0; j < course[i].length; j++) {
       console.log(i + "번째의 " + j +  " 번째 placeName : " + course[i][j].placeName);
@@ -201,216 +205,105 @@ function submit() {
       console.log(i + "번째의 " + j +  " 번째 etc : " + course[i][j].etc);
     }
   }
-  
-  document.getElementById('addForm').submit();
-}
+  console.log("-------------------------------------------------------");
+  count = 0;
+  for (var i = 0; i < course.length; i++) {
+    if (i == 0) {
+      console.log(document.getElementsByName('dayDate')[0]);
+      console.log(document.getElementsByName('dayDate')[0].value);
+    }
+    console.log( document.querySelectorAll('.placeTitle')[i]);
+    console.log( document.querySelectorAll('.placeTitle')[i].value);
+    console.log( document.querySelectorAll('.dayLength')[i]);
+    console.log(document.querySelectorAll('.dayLength')[i].value);
 
-function courseDataSave() {
-  for (var i = 0; i < document.querySelectorAll('.item').length; i++) {
-    if (course.length == 0 || calculateDate(course[0].dayDate, i) == calculateDate((document.getElementById('dropdown').childNodes[5].childNodes[1].innerHTML).substring(55))) {   
-      var courseDay = new Array();
-      for (var j = 0; j < document.querySelectorAll('.placeName').length; j++) {
-        var coursePlace = new Object();
-        coursePlace.placeName = document.querySelectorAll('.placeName')[j].value;
-        coursePlace.basicAddr = document.querySelectorAll('.basicAddr')[j].value;
-        coursePlace.detailAddr = document.querySelectorAll('.detailAddr')[j].value;
-        coursePlace.etc = document.querySelectorAll('.etc')[j].value;
-        courseDay.push(coursePlace);
-      }
-      if (course.length != 0) {
-      courseDay.no = course[i].no;
-      }
-      courseDay.title = document.getElementsByName('title')[0].value;
-      courseDay.dayDate = calculateDate((document.getElementById('dropdown').childNodes[5].childNodes[1].innerHTML).substring(55));
-      course[i] = courseDay; 
-      break;
+    for (var j = 0; j < course[i].length; j++) {
+      console.log(document.querySelectorAll('.placeName')[count]);
+      console.log(document.querySelectorAll('.placeName')[count].value);
+      console.log(document.querySelectorAll('.basicAddr')[count]);
+      console.log(document.querySelectorAll('.basicAddr')[count].value);
+      console.log(document.querySelectorAll('.detailAddr')[count]);
+      console.log(document.querySelectorAll('.detailAddr')[count].value);
+      console.log(document.querySelectorAll('.etc')[count]);
+      console.log(document.querySelectorAll('.etc')[count].value);
+      count++;
     }
   }
+  }, 3000);
+  setTimeout(() => {
+    document.getElementById('addForm').submit();
+  }, 3000);
 }
 
-function courseDataReload(obj) {
-  if (obj == null) {
-    for (var i = 0; i < course.length; i++) {
-      if (i == 0) {
-        insertDayData(0);
-      } else {
-        addDate();
-      }
-    }
-  } else {
-    for (var i = 0; i < course.length; i++) {
-      if (obj.innerHTML == document.querySelectorAll('.innerlineDate')[0].innerHTML) {
-        if (i == 0) {
-          courseDataSave();
-          insertDayData(0);
-          insertInnerDate(obj);
-          break;
-        }
-      } 
-      if (obj.innerHTML == course[i].dayDate) {
-        courseDataSave();
-        insertDayData(i);
-        insertInnerDate(obj);
-        dropdownInit();
-        break;
-      }
-      if (i + 1 == course.length && obj.innerHTML != course[i].dayDate) {
-        courseDataSave();
-        getNewForm();
-        insertInnerDate(obj);
-        dropdownInit();
-        break;
-      }
-    }
-    if (document.querySelectorAll('.menu.transition.visible')[0] != null) {
-      document.querySelectorAll('.menu.transition.visible')[0].className = 'menu transition hidden';
-    }
-  }
-  inputPlaceName();
-  getGeoLocation();
-}
-
-function insertInnerDate(obj) {
-  document.getElementById('dropdown').childNodes[5].innerHTML = '<div class="dayCount">' + obj.parentNode.childNodes[0].innerHTML + '</div>';
-  document.getElementById('dropdown').childNodes[5].innerHTML += '<div class="innerDate"><input type="hidden" name="dayDate" value="'+ obj.parentNode.childNodes[1].innerHTML + '">' + obj.parentNode.childNodes[1].innerHTML + '</div>';
-  document.getElementById('dropdown').className = 'ui selection dropdown';
-}
-
-function insertDayData(i) {
-  getNewForm();
-  document.getElementsByName('title')[0].value = course[i].title;
-  for (var j = 0; j < course[i].length; j++) {
-    if (j != 0) {
-      addForm();
-    }
-    document.querySelectorAll('.placeName')[j].value = course[i][j].placeName;
-    document.querySelectorAll('.basicAddr')[j].value = course[i][j].basicAddr;
-    document.querySelectorAll('.detailAddr')[j].value = course[i][j].detailAddr;
-    document.querySelectorAll('.etc')[j].value = course[i][j].etc;
-  }
-  if (i != 0) {
-    inputPlaceName();
-    getGeoLocation();
-  }
-}
-
-function getNewDayForm() {
-  document.getElementsByName('title')[0].value = "";
-  var nullDataHTML = `     <div id="placeForm">
-  장소명: <input class="placeName"  onchange="inputPlaceName();" name="placeNames" type="text"><br>
-  기본주소:<input type="text" class="basicAddr" name="basicAddrs" style="width:240px;" readonly/> 
-  <input type="button" onChange="getGeoLocation();" onClick="openDaumZipAddress(this);" value = "주소 찾기" /><br/>
-  상세주소:<input type="text" class="detailAddr" name="detailAddrs" style="width:240px;"/> <br/>
-  비고: <input class="etc" name="etcs" type="text"><br>
-  </div>
-  <div id="leftField"></div>
-  <button type="button" onclick="addForm()"> 코스 추가</button> <br>
-  <button type="button" onclick="submitForm()">등록</button> <br>`;
-  document.querySelectorAll('.leftContent')[0].innerHTML = nullDataHTML;
-  document.getElementById('rightField').innerHTML = "";
-}
-  
-function changeCourseDate(obj) {
-  if (obj != null) {
-    for (var i = 0; i < document.querySelectorAll('.item').length; i++) {
-      course[i].dayDate = calculateDate(obj, i);
-    }
-  } else {
-    for (var i = 0; i < document.querySelectorAll('.item').length; i++) {
-      if (course[i] == null) {
-        var coursePlace = new Object();
-        coursePlace.placeName = "";
-        coursePlace.basicAddr = "";
-        coursePlace.detailAddr = "";
-        coursePlace.etc = "";
-        var courseDay = new Array();
-        courseDay.push(coursePlace);
-        courseDay.title = "";
-        course[i] = courseDay;
-      }
-      course[i].dayDate = calculateDate(document.querySelectorAll('.innerlineDate')[0].innerHTML, i);
-    }
-  }
-}
-  
-function dropdownInit(obj) {
-   for (var i = 0; i < document.querySelectorAll('.item').length; i++) {
-     var str = '<div class="innerline"><div class="innerlineDay">Day' + (i + 1) + '</div>';
-     var firstDate = new Object();
-     if (obj != null) {
-       firstDate = calculateDate(obj);
-     } else {
-       firstDate = document.querySelectorAll('.innerlineDate')[0].innerHTML;
-     }
-     var calculDate = calculateDate(firstDate, i);
-     str += '<div class="innerlineDate" onclick="courseDataReload(this);">' + calculDate + '</div></div>';
-//       if (i == 0) {
-//         str += '<div class="minusArea"><i class="minus icon" style="margin: 0px; padding-left: calc(100% - 144px);"></i></div>'
-//       } else {
-     str += '<div class="minusArea" onclick="removeDate(this)"><i class="minus icon" style="margin: 0px; padding-left: calc(100% - 144px);"></i></div>'
-//     }
-     document.querySelectorAll('.item')[i].innerHTML = str;
-     (document.querySelectorAll('.item')[i]).setAttribute('data-text', calculDate);
-  }
-}
-
-function removeDate(event) {
+function removeDate(event) { // Dropdown에 Date 삭제 minus 버튼을 눌렀을 때,
   if (document.querySelectorAll('.item').length == 1) {
     console.log("마지막 하나는 지울 수 없습니다.");
   } else {
-    //(obj.parentNode.parentNode).removeChild(obj.parentNode);
-    var newFirstDay = null;
-    if (event.parentNode.getAttribute('data-text') == course[0].dayDate) {
-      newFirstDay = course[0].dayDate;
-    }
-    newCourse = new Array();
-    for (var i = 0; i < course.length; i++) {
-      if (event.parentNode.getAttribute('data-text') != course[i].dayDate) {
-        newCourse.push(course[i]); 
+    var removeIndex = $(event.parentNode).index();
+    var tmpDate = course[removeIndex].dayDate;
+    
+    course.splice($(event.parentNode).index(), 1);
+    
+    if (course.length > removeIndex) {
+      var count = 0;
+      for (var i = removeIndex; i < course.length; i++) {
+        course[i].dayDate = calculateDate(tmpDate, count);
       }
     }
-    course = newCourse;
-    if (newFirstDay != null) {
-      getNewDropdown();
-      $('#button_calendar').calendar('set date', new Date(newFirstDay));
-      insertDayData(0);
-    } else {
-      getNewDropdown();
-      $('#button_calendar').calendar('set date', course[0].dayDate);
-      insertDayData(0);
+    document.getElementById('dropDownID').removeChild(event.parentNode);
+    dropdownSort();
+    if ((document.querySelectorAll('.dayCount')[0].innerHTML).substring(3, 5) == (removeIndex + 1)) {
+    var index = removeIndex;
+    if (course.length == removeIndex) {
+      --index;
     }
-    courseDataReload();
+    displayCourseDayByIndex(index);
+    displayDropdownDate(index);
+    }
+  }
+
+}
+
+function newCourse() { // course에 새로운 Day를 추가함 dayDate 값만 넣는다.
+  var newCourse = new Array();
+  newCourse.dayDate = calculateDate(course[course.length-1].dayDate, 1);
+  return newCourse;
+}
+
+function dropdownSort() { // course dayDate에 맞춰 dropdown을 정렬한다.
+  for (var i = 0; i < document.querySelectorAll('.item').length; i++) {
+    var str = '<div class="innerline"><div class="innerlineDay">Day' + (i + 1) + '</div>';
+    str += '<div class="innerlineDate" onclick="displaySelectCourseDateData(this);">' + course[i].dayDate + '</div></div>';
+    str += '<div class="minusArea" onclick="removeDate(this)"><i class="minus icon" style="margin: 0px; padding-left: calc(100% - 144px);"></i></div>'
+    document.querySelectorAll('.item')[i].innerHTML = str;
+    (document.querySelectorAll('.item')[i]).setAttribute('data-text', course[i].dayDate);
   }
 }
 
-function getNewDropdown() {
-  var newInnerHTML = `        <input type="hidden" name="selectDate" class="noselection">
-      <i class="dropdown icon"></i>
-      <div class="default text">Day
-        <div class="innerDate"></div>
-      </div>
-        <div class="menu" tabindex="-1">
-          <div class="item" draggable="true" ondragstart="courseDateDrag(event)" ondrop="courseDateDrop(event)" ondragover="allowDrop(event)" data-text="2020-05-02" style="padding:11px 5px 11px 14px !important">
-            <div class="innerline">
-              <div class="innerlineDay">Day1</div>
-              <div class="innerlineDate" onclick="courseDataReload(this);">2020-05-04</div>
-            </div>
-            <div class="minusArea">
-              <i class="minus icon" style="margin: 0px; padding-left: calc(100% - 144px);"></i>
-            </div>
-          </div>
-          <div class="plus"><i class="plus icon" onclick="addDate();"></i></div>
-      </div>`;
-  document.getElementById('dropdown').innerHTML = newInnerHTML
-  $('.ui.dropdown').dropdown({
-    action:'nothing'
-  });
+function displaySelectCourseDateData(event) { // 해당 date 선택 시 해당 Data를 보여준다.
+  courseDataSave();
+  console.log("나 호출됨!");
+  var index = $(event.parentNode.parentNode).index();
+  displayCourseDayByIndex(index);
+  displayDropdownDate(index);
 }
 
-function addDate() {
-  // 기존 plusdiv datadiv(item)로 변경
-  var datadiv = document.querySelectorAll('.plus')[0];
-  datadiv.className = 'item';
+function displayDropdownDate(index) { // dropdown에서 index에 해당하는 날짜를 보여주는 역할
+  var str = 'Day' + (index + 1);
+  document.querySelectorAll('.dayCount')[0].innerHTML = str;
+  document.querySelectorAll('.innerDate')[0].innerHTML = '<div class="innerDate"><input type="hidden" name="dayDate" value="'+ course[0].dayDate + '">' + course[index].dayDate + '</div>';
+  if (typeof (document.querySelectorAll('.menu.transition.visible')[0]) != "undefined") {
+    document.querySelectorAll('.menu.transition.visible')[0].className = 'menu transition hidden'
+  }
+    $('.menu.transition.hidden').attr('style', '');
+  document.getElementById('dropdown').className = 'ui selection dropdown';
+
+}
+
+function addDate(event) { // Dropdown에 Date 추가
+  console.log(document.querySelectorAll('.datePlus')[0]);
+  var datediv = document.querySelectorAll('.datePlus')[0];
+  datediv.className = 'item';
   $('.item').attr('style', 'padding:11px 5px 11px 14px !important');
   $('.item').attr('draggable', 'true');
   $('.item').attr('ondragstart', 'courseDateDrag(event)');
@@ -418,293 +311,103 @@ function addDate() {
   $('.item').attr('ondragover', 'allowDrop(event)');
   
   var plusdiv = document.createElement('div');
-  plusdiv.className = 'plus';
-  plusdiv.innerHTML += '<i class="plus icon" onclick="addDate();"></i>'
-  
-  // plusdiv 생성
-  document.getElementById('dropdown').childNodes[7].appendChild(plusdiv);
-  
-  dropdownInit();
-  changeCourseDate();
+  plusdiv.className = 'datePlus';
+  plusdiv.innerHTML += '<i class="plus icon" onclick="addDate(this);"></i>'
+  document.getElementById('dropDownID').appendChild(plusdiv);
+  if (event != null) {
+    course.push(newCourse());
+  }
+  dropdownSort();
 }
 
-function scrapDataOnCourse(obj) {
-  if (heartIconValue == 1) {
-    if (document.querySelectorAll('.placeName').length == 1 && document.querySelectorAll('.placeName')[0].value == ""
-      && document.querySelectorAll('.basicAddr')[0].value == "" && document.querySelectorAll('.detailAddr')[0].value == "") {
-      var placeNames = document.querySelectorAll('.placeName');
-      for (var i = 3; i < obj.parentNode.parentNode.childNodes.length; i += 4) {
-        if((obj.parentNode.parentNode.childNodes[i].childNodes[0].textContent).substring(23)==(obj.parentNode.childNodes[0].textContent).substring(23)) {
-          if(obj.parentNode.parentNode.parentNode.parentNode.id=="accordionArea") {
-            placeNames[0].value = (obj.parentNode.parentNode.childNodes[i-2].childNodes[2].textContent).substring(17);
-          } else {
-            placeNames[0].value = (obj.parentNode.parentNode.childNodes[i-2].childNodes[2].textContent).substring(23);
-          }
-          // input(placeNames[0]);
-          inputPlaceName();
-        }
-      }
-      var basicAddrs = document.querySelectorAll('.basicAddr');
-      var detailAddrs = document.querySelectorAll('.detailAddr');
-      if(obj.parentNode.parentNode.parentNode.parentNode.id=="accordionArea") {
-        basicAddrs[0].value = (obj.parentNode.childNodes[0].textContent).substring(17);
-        detailAddrs[0].value = (obj.parentNode.childNodes[2].textContent).substring(17);
-      } else {
-        basicAddrs[0].value = (obj.parentNode.childNodes[0].textContent).substring(23);
-        detailAddrs[0].value = (obj.parentNode.childNodes[2].textContent).substring(23);
-      }
-    } else {
-    addForm();
-    var placeNames = document.querySelectorAll('.placeName');
-    for (var i = 3; i < obj.parentNode.parentNode.childNodes.length; i += 4) {
-      if((obj.parentNode.parentNode.childNodes[i].childNodes[0].textContent).substring(23)==(obj.parentNode.childNodes[0].textContent).substring(23)) {
-        if(obj.parentNode.parentNode.parentNode.parentNode.id=="accordionArea") {
-          placeNames[placeNames.length-1].value = (obj.parentNode.parentNode.childNodes[i-2].childNodes[2].textContent).substring(17);
-        } else {
-          placeNames[placeNames.length-1].value = (obj.parentNode.parentNode.childNodes[i-2].childNodes[2].textContent).substring(23);
-        }
-        // input(placeNames[placeNames.length-1]);
-        inputPlaceName();
-      }
+function calculateDate(date, addDays) { // date에 addDays를 넣어 date string 형식으로 리턴한다.
+  var dateFormData = new Date(date);
+  if (typeof addDays == "number") {
+    dateFormData.setDate(dateFormData.getDate() + addDays);
+  }
+  var day = dateFormData.getDate();
+  var month = dateFormData.getMonth() + 1;
+  month = month >= 10 ? month : '0' + month;
+  var year = dateFormData.getFullYear();
+  day = day >= 10 ? day : '0' + day;
+  
+  return year + '-' + month + '-' + day;
+}
+
+function dropdownInit() { // 가장 처음에 dropdown 초기화
+  for (var i = 0; i < course.length; i++) {
+    if (i != 0) {
+    addDate();
     }
-      var basicAddrs = document.querySelectorAll('.basicAddr');
-      var detailAddrs = document.querySelectorAll('.detailAddr');
-      if(obj.parentNode.parentNode.parentNode.parentNode.id=="accordionArea") {
-        basicAddrs[placeNames.length-1].value = (obj.parentNode.childNodes[0].textContent).substring(17);
-        detailAddrs[placeNames.length-1].value = (obj.parentNode.childNodes[2].textContent).substring(17);
-      } else {
-        basicAddrs[placeNames.length-1].value = (obj.parentNode.childNodes[0].textContent).substring(23);
-        detailAddrs[placeNames.length-1].value = (obj.parentNode.childNodes[2].textContent).substring(23);
-      }
+    var str = '<div class="innerline"><div class="innerlineDay">Day' + (i + 1) + '</div>';
+    str += '<div class="innerlineDate" onclick="displaySelectCourseDateData(this);">' + course[i].dayDate + '</div></div>';
+    str += '<div class="minusArea" onclick="removeDate(this)"><i class="minus icon" style="margin: 0px; padding-left: calc(100% - 144px);"></i></div>'
+    document.querySelectorAll('.item')[i].innerHTML = str;
+    (document.querySelectorAll('.item')[i]).setAttribute('data-text', course[i].dayDate);
+  }
+}
+
+function startDateChange(date) { // startDate가 변동되면, Date dropdown에 적용한다.
+  var newFirstdate = calculateDate(date);
+  if (newFirstdate != course[0].dayDate) {
+    for (var i = 0; i < course.length; i++) {
+      course[i].dayDate = calculateDate(date, i);
     }
   }
-  getGeoLocation();
+  if (typeof (document.querySelectorAll('.dayCount')[0]) == "undefined") {
+    document.getElementById('dropdown').childNodes[5].innerHTML = '<div class="dayCount">Day1</div>';
+    document.getElementById('dropdown').childNodes[5].innerHTML += '<div class="innerDate"><input type="hidden" name="dayDate" value="'+ newFirstdate + '">' + newFirstdate + '</div>';
+    document.getElementById('dropdown').className = 'ui selection dropdown';
+    dropdownInit();
+  } else {
+    var dayIndex = (document.querySelectorAll('.dayCount')[0].innerHTML).substring(3, 5);
+    dropdownSort();
+    displayDropdownDate(dayIndex - 1);
+  }
 }
-  
-function inputPlaceName() {
+
+function matchShowCoursePlaceName() {
   for (var i = 0; i < document.querySelectorAll('.placeName').length; i++) {
   document.querySelectorAll('.showPlaceName')[i].value = document.querySelectorAll('.placeName')[i].value;
   }
 }
 
-function allowDrop(ev) {
-  ev.preventDefault();
-}
-
-function courseDateDrag(ev) {
-  for (var i = 0; i < course.length; i++) {
-    if (course[i].dayDate == ev.target.childNodes[0].childNodes[1].innerHTML) {
-      courseDateDragDropData = new Object();
-      var courseDay = new Array();
-      for (var j = 0; j < course[i].length; j++) {
-        courseDateDragDropData.index = i;
-        var coursePlace = new Object();
-        coursePlace.placeName = course[i][j].placeName;
-        coursePlace.basicAddr = course[i][j].basicAddr;
-        coursePlace.detailAddr = course[i][j].detailAddr;
-        coursePlace.etc = course[i][j].etc;
-        courseDay.push(coursePlace);
-      }
-      courseDay.dayDate = course[i].dayDate;
-      courseDay.title = course[i].title;
-      courseDay.no = course[i].no;
-      courseDateDragDropData.courseDay = courseDay;
+function getSelectCourseDayForm(index) { // 해당한 index의 CourseDayForm을 만든다.
+  var preDataLength = document.querySelectorAll('.placeName').length;
+  var postDataLength = course[index].length;
+  if (preDataLength < postDataLength) {
+    for (var i = preDataLength; i < postDataLength; i++) {
+      addForm();
+    }
+  }
+  if (preDataLength > postDataLength) {
+    for (var i = preDataLength; i > postDataLength; i--) {
+      removeFormByIndex(i - 1);
     }
   }
 }
 
-function courseDateDrop(ev) {
-  ev.preventDefault();
-  if (ev.target.parentNode.parentNode.className == 'item') {
-    for (var i = 0; i < course.length; i++) {
-      if (course[i].dayDate == ev.target.parentNode.childNodes[1].innerHTML) {
-        var courseDay = new Array();
-        for (var j = 0; j < course[i].length; j++) {
-          var coursePlace = new Object();
-          coursePlace.placeName = course[i][j].placeName;
-          coursePlace.basicAddr = course[i][j].basicAddr;
-          coursePlace.detailAddr = course[i][j].detailAddr;
-          coursePlace.etc = course[i][j].etc;
-          courseDay.push(coursePlace);
-        }
-        courseDay.title = course[i].title;
-        
-        courseDay.no = courseDateDragDropData.courseDay.no;
-        courseDay.dayDate = courseDateDragDropData.courseDay.dayDate;
-        course[courseDateDragDropData.index] = courseDay;
-        
-        courseDateDragDropData.courseDay.no = course[i].no;
-        courseDateDragDropData.courseDay.dayDate = course[i].dayDate;
-        course[i] = courseDateDragDropData.courseDay;
-        
-        }
+function displayCourseDayByIndex(index) { // 현재 course Array에 맞는 Page를 보여준다.
+  if (index != null) {
+    getSelectCourseDayForm(index);
+    if (course[index].title != null) {
+      document.querySelectorAll('.placeTitle')[0].value = course[index].title;
+      for (let i = 0; i < course[index].length; i++) {
+        document.querySelectorAll('.placeName')[i].value = course[index][i].placeName;
+        document.querySelectorAll('.basicAddr')[i].value =  course[index][i].basicAddr;
+        document.querySelectorAll('.detailAddr')[i].value =  course[index][i].detailAddr;
+        document.querySelectorAll('.etc')[i].value =  course[index][i].etc;
       }
-    for (var x = 0; x < course.length; x++) {
-      if (ev.target.parentNode.childNodes[1].innerHTML == document.querySelectorAll('.innerlineDate')[0].innerHTML) {
-        if (i == 0) {
-          insertDayData(0);
-          insertInnerDate(ev.target.parentNode.childNodes[1]);
-          break;
-        }
-      } 
-      if (ev.target.parentNode.childNodes[1].innerHTML == course[x].dayDate) {
-        insertDayData(x);
-        insertInnerDate(ev.target.parentNode.childNodes[1]);
-        dropdownInit();
-        break;
-      }
-      if (x + 1 == course.length && ev.target.parentNode.childNodes[1].innerHTML != course[x].dayDate) {
-        getNewForm();
-        insertInnerDate(ev.target.parentNode.childNodes[1]);
-        dropdownInit();
-        break;
-      }
+    } else {
+      document.querySelectorAll('.placeTitle')[0].value = "";
+      document.querySelectorAll('.placeName')[0].value = "";
+      document.querySelectorAll('.basicAddr')[0].value =  "";
+      document.querySelectorAll('.detailAddr')[0].value =  "";
+      document.querySelectorAll('.etc')[0].value =  "";
     }
-    if (document.querySelectorAll('.menu.transition.visible')[0] != null) {
-      document.querySelectorAll('.menu.transition.visible')[0].className = 'menu transition hidden';
-    }
-  } else {
   }
-}
-
-function placeNameDrag(ev) {
-  dragEvent = ev.target;
-  if (ev.target.parentNode.parentNode.id == "rightField") {
-    placeNameDragDropData.index = $(ev.target.parentNode).index();
-    var leftFieldDiv = document.getElementById("leftField");
-    for (var i = 0; i < leftFieldDiv.childNodes.length; i++) {
-      if (i == placeNameDragDropData.index) {
-        placeNameDragDropData.placeName = $(leftFieldDiv.childNodes[placeNameDragDropData.index]).find('.placeName').val();
-        placeNameDragDropData.basicAddr = $(leftFieldDiv.childNodes[placeNameDragDropData.index]).find('.basicAddr').val();
-        placeNameDragDropData.detailAddr = $(leftFieldDiv.childNodes[placeNameDragDropData.index]).find('.detailAddr').val();
-        placeNameDragDropData.etc = $(leftFieldDiv.childNodes[placeNameDragDropData.index]).find('.etc').val();
-        break;
-      }
-    }
-  } else { // 가장 첫번째 place
-    placeNameDragDropData.index = "first";
-    var placeFormDiv = document.getElementById("placeForm");
-    placeNameDragDropData.placeName = $(placeFormDiv).find('.placeName').val();
-    placeNameDragDropData.basicAddr = $(placeFormDiv).find('.basicAddr').val();
-    placeNameDragDropData.detailAddr = $(placeFormDiv).find('.detailAddr').val();
-    placeNameDragDropData.etc = $(placeFormDiv).find('.etc').val();
-  }
-}
-
-function placeNameDrop(ev) {
-  ev.preventDefault();
-  var tempData = new Object();
-  tempData.index = $(ev.target.parentNode).index();
-  drawingFlag = false;
-  if (placeNameDragDropData.index == "first") { // drag가 가장 첫번째 place인지 확인
-    var leftFieldDiv = document.getElementById("leftField");
-    tempData.placeName = $(leftFieldDiv.childNodes[tempData.index]).find('.placeName').val();
-    tempData.basicAddr = $(leftFieldDiv.childNodes[tempData.index]).find('.basicAddr').val();
-    tempData.detailAddr = $(leftFieldDiv.childNodes[tempData.index]).find('.detailAddr').val();
-    tempData.etc = $(leftFieldDiv.childNodes[tempData.index]).find('.etc').val();
-    
-    $(leftFieldDiv.childNodes[tempData.index]).find('.placeName').val(placeNameDragDropData.placeName);
-    $(leftFieldDiv.childNodes[tempData.index]).find('.basicAddr').val(placeNameDragDropData.basicAddr);
-    $(leftFieldDiv.childNodes[tempData.index]).find('.detailAddr').val(placeNameDragDropData.detailAddr);
-    $(leftFieldDiv.childNodes[tempData.index]).find('.etc').val(placeNameDragDropData.etc);
-    
-    var placeFormDiv = document.getElementById("placeForm");
-    $(placeFormDiv).find('.placeName').val(tempData.placeName);
-    $(placeFormDiv).find('.basicAddr').val(tempData.basicAddr);
-    $(placeFormDiv).find('.detailAddr').val(tempData.detailAddr);
-    $(placeFormDiv).find('.etc').val(tempData.etc);
-    
-    // input(placeFormDiv.childNodes[1]);
-    // input(leftFieldDiv.childNodes[tempData.index].childNodes[1]);
-    inputPlaceName();
-    
-  } else if (ev.target.parentNode.parentNode.id == "rightField") { // drag &
-                                                                    // drop 둘다
-                                                                    // first
-                                                                    // place
-                                                                    // 아님.
-    var leftFieldDiv = document.getElementById("leftField");
-    tempData.placeName = $(leftFieldDiv.childNodes[tempData.index]).find('.placeName').val();
-    tempData.basicAddr = $(leftFieldDiv.childNodes[tempData.index]).find('.basicAddr').val();
-    tempData.detailAddr = $(leftFieldDiv.childNodes[tempData.index]).find('.detailAddr').val();
-    tempData.etc = $(leftFieldDiv.childNodes[tempData.index]).find('.etc').val();
-    
-    $(leftFieldDiv.childNodes[tempData.index]).find('.placeName').val(placeNameDragDropData.placeName);
-    $(leftFieldDiv.childNodes[tempData.index]).find('.basicAddr').val(placeNameDragDropData.basicAddr);
-    $(leftFieldDiv.childNodes[tempData.index]).find('.detailAddr').val(placeNameDragDropData.detailAddr);
-    $(leftFieldDiv.childNodes[tempData.index]).find('.etc').val(placeNameDragDropData.etc);
-    
-    $(leftFieldDiv.childNodes[placeNameDragDropData.index]).find('.placeName').val(tempData.placeName);
-    $(leftFieldDiv.childNodes[placeNameDragDropData.index]).find('.basicAddr').val(tempData.basicAddr);
-    $(leftFieldDiv.childNodes[placeNameDragDropData.index]).find('.detailAddr').val(tempData.detailAddr);
-    $(leftFieldDiv.childNodes[placeNameDragDropData.index]).find('.etc').val(tempData.etc);
-    
-    // input(leftFieldDiv.childNodes[tempData.index].childNodes[1]);
-    // input(leftFieldDiv.childNodes[placeNameDragDropData.index].childNodes[1]);
-    inputPlaceName();
-    
-  } else { // drop이 first place.
-    var placeFormDiv = document.getElementById("placeForm");
-    tempData.placeName = $(placeFormDiv).find('.placeName').val();
-    tempData.basicAddr = $(placeFormDiv).find('.basicAddr').val();
-    tempData.detailAddr = $(placeFormDiv).find('.detailAddr').val();
-    tempData.etc = $(placeFormDiv).find('.etc').val();
-    
-    $(placeFormDiv).find('.placeName').val(placeNameDragDropData.placeName);
-    $(placeFormDiv).find('.basicAddr').val(placeNameDragDropData.basicAddr);
-    $(placeFormDiv).find('.detailAddr').val(placeNameDragDropData.detailAddr);
-    $(placeFormDiv).find('.etc').val(placeNameDragDropData.etc);
-    
-    var leftFieldDiv = document.getElementById("leftField");
-    $(leftFieldDiv.childNodes[placeNameDragDropData.index]).find('.placeName').val(tempData.placeName);
-    $(leftFieldDiv.childNodes[placeNameDragDropData.index]).find('.basicAddr').val(tempData.basicAddr);
-    $(leftFieldDiv.childNodes[placeNameDragDropData.index]).find('.detailAddr').val(tempData.detailAddr);
-    $(leftFieldDiv.childNodes[placeNameDragDropData.index]).find('.etc').val(tempData.etc);
-    
-    // input();leftFieldDiv.childNodes[placeNameDragDropData.index].childNodes[1]);
-    // input(placeFormDiv.childNodes[1]);
-    inputPlaceName();
-    
-  }
-  
+  matchShowCoursePlaceName();
   getGeoLocation();
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-function removeForm(obj){
-  if (document.querySelectorAll('.reviewPlace').length != 1) {
-    document.getElementById('rightField').removeChild(document.getElementById("rightField").childNodes[$(obj.parentNode).index()]);
-    document.getElementById('leftField').removeChild(obj.parentNode);
-    getGeoLocation();
-  }
-}
-
-function addForm(){
-  var div = document.createElement('div');
-  var str = document.getElementById('placeForm').innerHTML;
-  str +=  '<button type="button" onclick="removeForm(this)"> 코스 삭제</button>';
-  div.innerHTML = str;
-  document.getElementById('leftField').appendChild(div);
-  
-  var div2 = document.createElement('div');
-  var str2 = '<input class="showPlaceName" draggable="true" ondragstart="placeNameDrag(event)" ondrop="placeNameDrop(event)" ondragover="allowDrop(event)" type="text" readonly>';
-  div2.innerHTML = str2;
-  document.getElementById('rightField').appendChild(div2);
-}
-
-function displayCourseDayByIndex(index) { // 현재 review Array에 맞는 Page를 보여준다.
-  
 }
 
 function calculateDate(date, addDays) {
@@ -721,19 +424,81 @@ function calculateDate(date, addDays) {
   return year + '-' + month + '-' + day;
 }
 
-function startDateChange(date) { // startDate가 변동되면, Date dropdown에 적용한다.
-  if (calculateDate(date) != course[0].dayDate) {
-    for (var i = 0; i < course.length; i++) {
-      course[i].dayDate = calculateDate(date, i);
-    } 
+
+function courseAddForm() {
+  if (typeof document.querySelectorAll('.dayCount')[0] != 'undefined') {
+    var i = (document.querySelectorAll('.dayCount')[0].innerHTML).substring(3, 5) - 1;
+    var coursePlace = new Array();
+    course[i].push(coursePlace);
+  } else {
+    var coursePlace = new Array();
+    course[0].push(coursePlace);
   }
 }
 
-function courseDataInit(courseData) {
-  if (courseData.length != 0) {
+function addFormByEvent(){ // plus icon 클릭시 해당 Form 추가
+  var div = document.createElement('div');
+  div.className = 'placeArea';
+  div.innerHTML = document.querySelectorAll('.placeArea')[0].innerHTML;
+  document.getElementById('placeForm').appendChild(div);
+  
+  var div2 = document.createElement('div');
+  var str2 = '<input class="showPlaceName" id="showPlaceName" draggable="true" ondragstart="placeNameDrag(event)" ondrop="placeNameDrop(event)" ondragover="allowDrop(event)" type="text" readonly>'
+  div2.innerHTML = str2;
+  document.getElementById('showPlaceNameArea').appendChild(div2);
+  
+  courseAddForm();
+}
+
+function addForm(){ // 다른 메서드에서 호출한다.
+  var div = document.createElement('div');
+  div.className = 'placeArea';
+  div.innerHTML = document.querySelectorAll('.placeArea')[0].innerHTML;
+  document.getElementById('placeForm').appendChild(div);
+  
+  var div2 = document.createElement('div');
+  var str2 = '<input class="showPlaceName" id="showPlaceName" draggable="true" ondragstart="placeNameDrag(event)" ondrop="placeNameDrop(event)" ondragover="allowDrop(event)" type="text" readonly>'
+  div2.innerHTML = str2;
+  document.getElementById('showPlaceNameArea').appendChild(div2);
+}
+
+function courseRemoveForm(index) {
+  if (typeof document.querySelectorAll('.dayCount')[0] != 'undefined') {
+  var i = (document.querySelectorAll('.dayCount')[0].innerHTML).substring(3, 5) - 1;
+  course[i].splice(index, 1);
+  } else {
+    course[0].splice(index, 1);
+  }
+}
+
+function removeFormByIndex(index) { // index를 받으면 해당 Form을 지운다.
+  if (document.querySelectorAll('.placeArea').length != 1) {
+    document.getElementById('showPlaceNameArea').removeChild(document.getElementById('showPlaceNameArea').childNodes[index]);
+    document.getElementById('placeForm').removeChild(document.querySelectorAll('.placeArea')[index]);
+  }
+}
+
+function removeForm(event){ // minus icon 클릭시 해당 Form 삭제
+  console.log(document.querySelectorAll('.placeArea'));
+  console.log(document.querySelectorAll('.placeArea').length);
+  if (document.querySelectorAll('.placeArea').length != 1) {
+    var index = $(event.parentNode.parentNode).index();
+    console.log(document.getElementById('showPlaceNameArea').childNodes);
+    
+    document.getElementById('showPlaceNameArea').removeChild(document.getElementById('showPlaceNameArea').childNodes[index]);
+    document.getElementById('placeForm').removeChild(event.parentNode.parentNode);
+    courseRemoveForm(index);
+  }
+  getGeoLocation();
+}
+
+function courseDataInit(courseData) { // DB로 전달받은 courseData를 course에 저장하고 첫번째 page를 준비한다.
+  console.log(courseData);
+  if (courseData.length != 0) { // courseData가 있을 때, 
     course = courseData;
     $('#button_calendar').calendar('set date', new Date(course[0].dayDate));
     displayCourseDayByIndex(0);
+  } else { // New Form 일 때
   }
 }
 
