@@ -36,10 +36,14 @@ public class ScrapController {
     if (loginUser == null) {
       throw new Exception("로그인이 필요합니다.");
     }
-    if (scrapDayService.addReviewDay(loginUser.getNo(), reviewDayNo) > 0) {
-      return "redirect:list?userNo" + loginUser.getNo();
+    if (scrapDayService.find(loginUser.getNo(), reviewDayNo).size() > 0) {
+      throw new Exception("이미 스크랩한 일정입니다.");
     } else {
-      throw new Exception("스크랩을 실패했습니다.");
+      if (scrapDayService.addReviewDay(loginUser.getNo(), reviewDayNo) > 0) {
+        return "redirect:list?userNo" + loginUser.getNo();
+      } else {
+        throw new Exception("스크랩을 실패했습니다.");
+      }
     }
   }
 
@@ -49,11 +53,14 @@ public class ScrapController {
     if (loginUser == null) {
       throw new Exception("로그인이 필요합니다.");
     }
-
-    if (scrapPlaceService.addReviewPlace(loginUser.getNo(), reviewPlaceNo) > 0) {
-      return "redirect:list?userNo" + loginUser.getNo();
+    if (scrapPlaceService.find(loginUser.getNo(), reviewPlaceNo).size() > 0) {
+      throw new Exception("이미 스크랩한 장소입니다.");
     } else {
-      throw new Exception("스크랩을 실패했습니다.");
+      if (scrapPlaceService.addReviewPlace(loginUser.getNo(), reviewPlaceNo) > 0) {
+        return "redirect:list?userNo" + loginUser.getNo();
+      } else {
+        throw new Exception("스크랩을 실패했습니다.");
+      }
     }
   }
 
