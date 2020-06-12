@@ -31,7 +31,7 @@
           </div>
           <div class="dayContentInPlaceNameArea">
  	          <c:forEach items="${scrapDay.reviewDay.reviewPlace}" var="scrapPlace" varStatus="status">
- 	            <c:if test="${status.getIndex() < 6}">
+ 	            <c:if test="${status.getIndex() < 15}">
 		 	          <div class="dayContentInPlaceName">
 		              ${scrapPlace.name}
 		            </div>
