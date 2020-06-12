@@ -11,11 +11,13 @@ $(".reviewForm").mouseover(function(){
   $(this).find('.title').show();
   $(this).find('.reviewScrapArea').show();
   $(this).find('.reviewStatusButtonArea').show();
+  $(this).css('background-size', '0');
   });
 $(".reviewForm").mouseleave(function(){
   $(this).find('.title').css('display', 'none');
   $(this).find('.reviewScrapArea').css('display', 'none');
   $(this).find('.reviewStatusButtonArea').css('display', 'none');
+  $(this).css('background-size', 'cover');
   });
 
 // 나중에 마우스 오버 추가하기
