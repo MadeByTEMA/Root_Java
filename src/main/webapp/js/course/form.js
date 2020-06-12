@@ -30,6 +30,54 @@ var distanceArray = new Array();
   var dots = {}; // 선이 그려지고 있을때 클릭할 때마다 클릭 지점과 거리를 표시하는 커스텀 오버레이 배열입니다.
 }
 
+$('.ui.dropdown').dropdown({
+  action:'nothing'
+});
+
+$('.minus.icon').css('margin', '0px');
+$('.minus.icon').css('padding-left', 'calc(100% - 144px)');
+$('.item').attr('style', 'padding:11px 5px 11px 14px !important');
+
+$('#button_calendar')
+.calendar({
+  type: 'date',
+  today: true,
+  text: {
+  days: ['일', '월', '화', '수', '목', '금', '토'],
+  months: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+  monthsShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+  today: 'Today',
+  now: 'Now',
+  am: 'AM',
+  pm: 'PM'
+  },
+  onChange: function (date, text, mode) {
+    startDateChange(date);
+  },
+  formatter: {
+    date: function (date, settings) {
+    if (!date) return '';
+    var day = date.getDate();
+    var month = date.getMonth() + 1;
+    month = month >= 10 ? month : '0' + month;
+    var year = date.getFullYear();
+    day = day >= 10 ? day : '0' + day;
+    return year + '년 ' + month + '월 ' + day + '일';
+    }
+  }
+});
+
+
+
+
+
+
+
+
+
+
+
+
 {
 var placeNameDragDropData = new Object();
 var courseDateDragDropData = null;
@@ -41,13 +89,9 @@ function sidebarToggle() {
  $('.ui.sidebar').sidebar('toggle');
 }
 
-$('.ui.dropdown').dropdown({
-  action:'nothing'
-});
 
-$('.minus.icon').css('margin', '0px');
-$('.minus.icon').css('padding-left', 'calc(100% - 144px)');
-$('.item').attr('style', 'padding:11px 5px 11px 14px !important');
+
+
 
 $('.ui.accordion').accordion();
 
@@ -58,13 +102,13 @@ $('.trigger .accordion')
     }
   });
   
-var starvalue = 0;
+var heartIconValue = 0;
 
   $('.ui.rating')
   .rating({
     maxRating: 1,
     onRate: function(value) {
-      starvalue = value;
+      heartIconValue = value;
     }
   })
 ;
@@ -85,35 +129,7 @@ var starvalue = 0;
     });
   });
   
-  $('#button_calendar')
-  .calendar({
-    type: 'date',
-    today: true,
-    text: {
-    days: ['일', '월', '화', '수', '목', '금', '토'],
-    months: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
-    monthsShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
-    today: 'Today',
-    now: 'Now',
-    am: 'AM',
-    pm: 'PM'
-    },
-    onChange: function (date, text, mode) {
-      startDateLoad(date);
-    },
-    formatter: {
-      date: function (date, settings) {
-      if (!date) return '';
-      var day = date.getDate();
-      var month = date.getMonth() + 1;
-      month = month >= 10 ? month : '0' + month;
-      var year = date.getFullYear();
-      day = day >= 10 ? day : '0' + day;
-      return year + '년 ' + month + '월 ' + day + '일';
-      }
-    }
-  })
-;
+
 
 function submitForm() {
   $('.ui.modal').modal({
@@ -187,14 +203,6 @@ function submit() {
   }
   
   document.getElementById('addForm').submit();
-}
-
-function courseDataInit(courseData) {
-  if (courseData.length != 0) {
-    course = courseData;
-    $('#button_calendar').calendar('set date', new Date(course[0].dayDate));
-    courseDataReload();
-  }
 }
 
 function courseDataSave() {
@@ -286,7 +294,7 @@ function insertDayData(i) {
   }
 }
 
-function getNewForm() {
+function getNewDayForm() {
   document.getElementsByName('title')[0].value = "";
   var nullDataHTML = `     <div id="placeForm">
   장소명: <input class="placeName"  onchange="inputPlaceName();" name="placeNames" type="text"><br>
@@ -302,42 +310,6 @@ function getNewForm() {
   document.getElementById('rightField').innerHTML = "";
 }
   
-function calculateDate(date, addDays) {
-  var dateFormData = new Date(date);
-  if (typeof addDays == "number") {
-    dateFormData.setDate(dateFormData.getDate() + addDays);
-  }
-  var day = dateFormData.getDate();
-  var month = dateFormData.getMonth() + 1;
-  month = month >= 10 ? month : '0' + month;
-  var year = dateFormData.getFullYear();
-  day = day >= 10 ? day : '0' + day;
-  
-  return year + '-' + month + '-' + day;
-}
-  
-function startDateLoad(obj) {
-  var newFirstdate = calculateDate(obj);
-  console.log(course.length)
-  if (course.length != 0 && newFirstdate != course[0].dayDate) {
-    courseDataSave();
-    changeCourseDate(obj);
-  }
-  if (((document.getElementById('dropdown').childNodes[5].innerHTML).trim()).substring(16) == 'class="innerDate"></div>' || 
-      ((document.getElementById('dropdown').childNodes[5].innerHTML).trim()).substring(19) == 'class="innerDate"></div>' ) {
-  document.getElementById('dropdown').childNodes[5].innerHTML = '<div class="dayCount">Day1</div>';
-  document.getElementById('dropdown').childNodes[5].innerHTML += '<div class="innerDate"><input type="hidden" name="dayDate" value="'+ newFirstdate + '">' + newFirstdate + '</div>';
-  document.getElementById('dropdown').className = 'ui selection dropdown';
-  } else if (document.querySelectorAll('.dayCount')[0].innerHTML != 'Day1') {
-      var index = (document.querySelectorAll('.dayCount')[0].innerHTML).substring(3);
-      document.getElementById('dropdown').childNodes[5].innerHTML = '<div class="dayCount">Day' + index + '</div>';
-      document.getElementById('dropdown').childNodes[5].innerHTML += '<div class="innerDate"><input type="hidden" name="dayDate" value="'+ course[index - 1].dayDate + '">' + course[index - 1].dayDate + '</div>';
-      document.getElementById('dropdown').className = 'ui selection dropdown';
-      insertDayData(index - 1);
-  }
-  dropdownInit(obj);
-}
-
 function changeCourseDate(obj) {
   if (obj != null) {
     for (var i = 0; i < document.querySelectorAll('.item').length; i++) {
@@ -382,18 +354,18 @@ function dropdownInit(obj) {
   }
 }
 
-function removeDate(obj) {
+function removeDate(event) {
   if (document.querySelectorAll('.item').length == 1) {
     console.log("마지막 하나는 지울 수 없습니다.");
   } else {
     //(obj.parentNode.parentNode).removeChild(obj.parentNode);
     var newFirstDay = null;
-    if (obj.parentNode.getAttribute('data-text') == course[0].dayDate) {
+    if (event.parentNode.getAttribute('data-text') == course[0].dayDate) {
       newFirstDay = course[0].dayDate;
     }
     newCourse = new Array();
     for (var i = 0; i < course.length; i++) {
-      if (obj.parentNode.getAttribute('data-text') != course[i].dayDate) {
+      if (event.parentNode.getAttribute('data-text') != course[i].dayDate) {
         newCourse.push(course[i]); 
       }
     }
@@ -457,7 +429,7 @@ function addDate() {
 }
 
 function scrapDataOnCourse(obj) {
-  if (starvalue == 1) {
+  if (heartIconValue == 1) {
     if (document.querySelectorAll('.placeName').length == 1 && document.querySelectorAll('.placeName')[0].value == ""
       && document.querySelectorAll('.basicAddr')[0].value == "" && document.querySelectorAll('.detailAddr')[0].value == "") {
       var placeNames = document.querySelectorAll('.placeName');
@@ -698,6 +670,26 @@ function placeNameDrop(ev) {
   getGeoLocation();
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+function removeForm(obj){
+  if (document.querySelectorAll('.reviewPlace').length != 1) {
+    document.getElementById('rightField').removeChild(document.getElementById("rightField").childNodes[$(obj.parentNode).index()]);
+    document.getElementById('leftField').removeChild(obj.parentNode);
+    getGeoLocation();
+  }
+}
+
 function addForm(){
   var div = document.createElement('div');
   var str = document.getElementById('placeForm').innerHTML;
@@ -711,10 +703,38 @@ function addForm(){
   document.getElementById('rightField').appendChild(div2);
 }
 
-function removeForm(obj){
-  document.getElementById('rightField').removeChild(document.getElementById("rightField").childNodes[$(obj.parentNode).index()]);
-  document.getElementById('leftField').removeChild(obj.parentNode);
-  getGeoLocation();
+function displayCourseDayByIndex(index) { // 현재 review Array에 맞는 Page를 보여준다.
+  
+}
+
+function calculateDate(date, addDays) {
+  var dateFormData = new Date(date);
+  if (typeof addDays == "number") {
+    dateFormData.setDate(dateFormData.getDate() + addDays);
+  }
+  var day = dateFormData.getDate();
+  var month = dateFormData.getMonth() + 1;
+  month = month >= 10 ? month : '0' + month;
+  var year = dateFormData.getFullYear();
+  day = day >= 10 ? day : '0' + day;
+  
+  return year + '-' + month + '-' + day;
+}
+
+function startDateChange(date) { // startDate가 변동되면, Date dropdown에 적용한다.
+  if (calculateDate(date) != course[0].dayDate) {
+    for (var i = 0; i < course.length; i++) {
+      course[i].dayDate = calculateDate(date, i);
+    } 
+  }
+}
+
+function courseDataInit(courseData) {
+  if (courseData.length != 0) {
+    course = courseData;
+    $('#button_calendar').calendar('set date', new Date(course[0].dayDate));
+    displayCourseDayByIndex(0);
+  }
 }
 
 function openDaumZipAddress(btn) { // 주소 API 연결

@@ -65,10 +65,9 @@ public class CourseController {
   @RequestMapping("add")
   public String add(//
       HttpSession session, //
-      String[] title, //
+      String[] titles, //
       Date dayDate, //
 
-      String[] dayNos, //
       String[] dayLengths, //
 
       String[] placeNames, //
@@ -82,6 +81,48 @@ public class CourseController {
       throw new Exception("유저 번호가 유효하지 않습니다.");
     }
 
+    System.out.println("dayDate 출력한다");
+    System.out.println(dayDate);
+
+    System.out.println("titles 출력한다");
+    for (String str : titles) {
+      System.out.println(str);
+    }
+
+    System.out.println("dayLengths 출력한다");
+    for (String str : dayLengths) {
+      System.out.println(str);
+    }
+
+    System.out.println("placeNames 출력한다");
+    for (String str : placeNames) {
+      System.out.println(str);
+    }
+
+    System.out.println("basicAddrs 출력한다");
+    for (String str : basicAddrs) {
+      System.out.println(str);
+    }
+
+    System.out.println("detailAddrs 출력한다");
+    for (String str : detailAddrs) {
+      System.out.println(str);
+    }
+
+    System.out.println("etcs 출력한다");
+    for (String str : etcs) {
+      System.out.println(str);
+    }
+
+
+
+
+
+
+
+
+
+
     Course oldCourse = (Course) session.getAttribute("course");
     Course newCourse = new Course();
     if (oldCourse != null) { // Update라면,
@@ -90,11 +131,11 @@ public class CourseController {
       newCourse.setNo(oldCourse.getNo()); // Update할 CourseNo 전달
       List<CourseDay> coursedays = new LinkedList<>();
       int count = 0;
-      for (int dayIndex = 0; dayIndex < title.length; dayIndex++) {
+      for (int dayIndex = 0; dayIndex < titles.length; dayIndex++) {
         Date newDayDate = dayDate;
         newDayDate.setDate((newDayDate.getDate() + dayIndex));
         List<CourseDay> oldDays = oldCourse.getCourseDay();
-        CourseDay courseday = new CourseDay(title[dayIndex], newDayDate);
+        CourseDay courseday = new CourseDay(titles[dayIndex], newDayDate);
         if (dayIndex < oldDays.size() && oldDays.get(dayIndex) != null) { // 만약 Update할 CourseDayNo가 존재한다면, 전달
           courseday.setNo(oldDays.get(dayIndex).getNo());
         }
@@ -125,8 +166,8 @@ public class CourseController {
         coursedays.add(courseday);
         count += Integer.parseInt(dayLengths[dayIndex]);
 
-        if (oldDays.size() > title.length) { // 업데이트 전 Course에는 있지만 없어진 Day 삭제
-          for (int i = title.length; i < oldDays.size(); i++) {
+        if (oldDays.size() > titles.length) { // 업데이트 전 Course에는 있지만 없어진 Day 삭제
+          for (int i = titles.length; i < oldDays.size(); i++) {
             List<CoursePlace> oldCoursePlaces = oldDays.get(i).getCoursePlace();
             for (int oldPlaceIndex = 0; oldPlaceIndex < oldCoursePlaces.size(); oldPlaceIndex++) {
               coursePlaceService.delete(oldCoursePlaces.get(oldPlaceIndex).getNo());
@@ -142,10 +183,10 @@ public class CourseController {
       newCourse.setUser(user);
       List<CourseDay> coursedays = new LinkedList<>(); // course 안에 들어갈 dayList 생성
       int count = 0;
-      for (int dayIndex = 0; dayIndex < title.length; dayIndex++) { // dayIndex에 맞게 for문 구분
+      for (int dayIndex = 0; dayIndex < titles.length; dayIndex++) { // dayIndex에 맞게 for문 구분
         Date newDayDate = dayDate;
         newDayDate.setDate((newDayDate.getDate() + dayIndex));
-        CourseDay courseday = new CourseDay(title[dayIndex], newDayDate);
+        CourseDay courseday = new CourseDay(titles[dayIndex], newDayDate);
         List<CoursePlace> courseplaces = new LinkedList<>();
         for (int i = 0; i < Integer.parseInt(dayLengths[dayIndex]); i++) { // dayIndex에 들어갈 PlaceList 생성
           CoursePlace courseplace = new CoursePlace(placeNames[i + count], basicAddrs[i + count]);
