@@ -41,7 +41,7 @@
 	          </div>
 	          <div class="dayContentInPlaceNameArea">
 	            <c:forEach items="${searchDay.reviewPlace}" var="searchPlace" varStatus="status">
-	              <c:if test="${status.getIndex() < 6}">
+	              <c:if test="${status.getIndex() < 5}">
 	                <div class="dayContentInPlaceName">
 	                  ${searchPlace.name}
 	                </div>
@@ -66,7 +66,7 @@
   </div>
   <div class="placeSearchArea">
     <c:forEach items="${searchPlaceList}" var="searchPlace" varStatus="status">
-      <c:if test="${status.getIndex() < 5}">
+      <c:if test="${status.getIndex() < 15}">
 	      <div class="placeSearchElement">
 	        <div class="placeMainPhotoArea">
 		        <a href='searchDetail?no=${searchPlace.day.no}'>
@@ -81,7 +81,7 @@
 	          </div>
 	        </div>
         </c:if>
-        <c:if test="${status.getIndex() == 5}">
+        <c:if test="${status.getIndex() == 15}">
           <div class="moreViewArea">
             <div class="moreView">
               더보기
