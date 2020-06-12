@@ -78,7 +78,7 @@ div.moreView{
 }
 div.placeSearchArea {
   width: 100%;
-  padding-left: 30px;
+  padding: 0px 50px;
 }
 div.placeSearchElement {
   width: 300px;
