@@ -273,7 +273,7 @@ function submit(status) { // JSON으로는 안되는거 같다. 그냥 배열로
   }
   setTimeout(() => {
     document.getElementById('addForm').submit();
-  }, 2000);
+  }, 3000);
 }
 
 function reviewRemoveForm(index) {
@@ -395,13 +395,17 @@ function matchShowReivewPlaceName() { // placeName을 Map 밑에 노출시킨다
 function getSelectReviewDayForm(index) { // 해당한 index의 ReviewDayForm을 만든다.
   var preDataLength = document.querySelectorAll('.placeName').length;
   var postDataLength = review[index].length;
+  console.log("preDataLength: " + preDataLength);
+  console.log("postDataLength: " + postDataLength);
   if (preDataLength < postDataLength) {
     for (var i = preDataLength; i < postDataLength; i++) {
+      console.log("플러스 호출: " + i);
       addForm();
     }
   }
   if (preDataLength > postDataLength) {
     for (var i = preDataLength; i > postDataLength; i--) {
+      console.log("마이너스 호출: " + i);
       removeFormByIndex(i - 1);
     }
   }
@@ -480,7 +484,7 @@ function displayReviewDayByIndex(index) { // 현재 review Array에 맞는 Page�
     if (review[index].title != null) {
       document.querySelectorAll('.title')[0].value = review[index].title;
       if (typeof review[index].mainReview != "undefined") {
-      document.querySelectorAll('.mainReview')[0].src = review[index].mainReview;
+      document.querySelectorAll('.mainReview')[0].value = review[index].mainReview;
       document.querySelectorAll('.displayReviewDayMainPhoto')[0].src = review[index].mainPhoto;
       }
       for (let i = 0; i < review[index].length; i++) {
