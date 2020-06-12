@@ -297,27 +297,13 @@ public class ReviewController {
     logger.debug(model);
   }
 
-  @GetMapping("searchDayDetail")
+  @GetMapping("searchDetail")
   public void searchDayDetail(int no, HttpSession session, Model model) throws Exception {
     User loginUser = (User) session.getAttribute("loginUser");
     if (loginUser == null) {
       throw new Exception("로그인이 필요합니다.");
     }
-    model.addAttribute("review", reviewService.get(no));
-    logger.info(model);
-    logger.debug(model);
-  }
-
-  @GetMapping("searchPlaceDetail")
-  public void searchPlaceDetail(int no, HttpSession session, Model model) throws Exception {
-    User loginUser = (User) session.getAttribute("loginUser");
-    if (loginUser == null) {
-      throw new Exception("로그인이 필요합니다.");
-    }
-
-    model.addAttribute("loginUser", loginUser);
-    model.addAttribute("review", reviewService.getByPlaceNo(no));
-    model.addAttribute("placeDetail", reviewPlaceService.searchPlaceGet(no));
+    model.addAttribute("reviewDay", reviewDayService.get(no));
     logger.info(model);
     logger.debug(model);
   }
