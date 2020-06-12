@@ -118,13 +118,13 @@
       select
       u.user_no,
       r.review_no, r.create_date, r.status, 
-      d.review_day_no, d.title, d.day_date, d.day_review, d.main_photo, d.status,
+      d.review_day_no, d.title, d.day_date, d.day_review, d.status,
       p.review_place_no, p.place_name, p.place_basic_address, p.place_detail_address,
       p.place_review, p.main_photo, p.status
-    from reviews r
+    from review_place p
+      inner join review_days d on d.review_day_no=p.review_day_no
+      inner join reviews r on r.review_no=d.review_no
       inner join users u on r.user_no=u.user_no
-      inner join review_days d on r.review_no=d.review_no
-      inner join review_place p on d.review_day_no=p.review_day_no
     where 
       d.title like #{keywordPattern}
       or d.day_review like #{keywordPattern}
