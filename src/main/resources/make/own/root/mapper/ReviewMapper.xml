@@ -85,7 +85,7 @@
       r.review_no, r.create_date, r.status, 
       d.review_day_no, d.title, d.day_date, d.day_review, d.main_photo, d.status,
       p.review_place_no, p.place_name, p.place_basic_address, p.place_detail_address,
-      p.place_review, p.main_photo, p.status,
+      p.place_review, p.main_photo, p.status
     from reviews r
       inner join users u on r.user_no=u.user_no
       inner join review_days d on r.review_no=d.review_no
